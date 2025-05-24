@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "/": {
       "main": [
@@ -563,7 +563,7 @@
         "rule": {
           "interval": [
             {
-              "triggerAtHour": 7
+              "field": "hours"
             }
           ]
         }
@@ -830,7 +830,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [
     {
       "createdAt": "2025-05-24T03:34:18.285Z",
@@ -839,7 +843,7 @@
       "name": "backup"
     }
   ],
-  "triggerCount": 0,
-  "updatedAt": "2025-05-24T04:16:48.000Z",
-  "versionId": "ff66dc81-e6ac-467c-bb4a-87d134fc7da1"
+  "triggerCount": 1,
+  "updatedAt": "2025-05-24T04:17:45.000Z",
+  "versionId": "c4ac1796-eceb-4403-bbc3-8baa294148ce"
 }
