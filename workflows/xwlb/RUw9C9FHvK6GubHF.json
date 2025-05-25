@@ -1,0 +1,366 @@
+{
+  "active": false,
+  "connections": {
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Markdown": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "定时触发": {
+      "main": [
+        [
+          {
+            "node": "AI爬取昨日新闻联播文字稿",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI爬取昨日新闻联播文字稿": {
+      "main": [
+        [
+          {
+            "node": "AI生成分析报告",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI生成分析报告": {
+      "main": [
+        [
+          {
+            "node": "推送到思源笔记",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI生成分析报告",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-05-25T10:32:38.837Z",
+  "id": "RUw9C9FHvK6GubHF",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "新闻联播 copy",
+  "nodes": [
+    {
+      "parameters": {
+        "fromEmail": "794109876@qq.com",
+        "toEmail": "793652832@qq.com",
+        "subject": "={{ $json.formattedDate }}新闻联播资讯",
+        "html": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        1020
+      ],
+      "id": "c0b628b2-9993-4dc5-a1ce-11aef6cf69ce",
+      "name": "Send Email",
+      "webhookId": "c393c422-705f-4ca1-acac-92e8e1f4bd2f",
+      "credentials": {
+        "smtp": {
+          "id": "943D8YV0KZW8WwZ2",
+          "name": "SMTP account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "=https://bj.xujw.top/etapi/calendar/days/{{ $('Date & Time1').item.json.formattedDate }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        1020
+      ],
+      "id": "41d50ce1-7b5f-4294-b4ba-2c78fbb057e3",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "kkONb8tlqvKKNe4D",
+          "name": "Bearer Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "jXL8yIoZJ2hRazsc",
+          "name": "Header Auth account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bj.xujw.top/etapi/create-note",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "parentNoteId",
+              "value": "={{ $json.noteId }}"
+            },
+            {
+              "name": "title",
+              "value": "新闻联播机会"
+            },
+            {
+              "name": "type",
+              "value": "code"
+            },
+            {
+              "name": "content",
+              "value": "={{ $('AI生成分析报告').item.json.output }}"
+            },
+            {
+              "name": "mime",
+              "value": "Markdown"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        780,
+        1020
+      ],
+      "id": "1547370d-0f4b-4321-953d-fd46fc6d41be",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "kkONb8tlqvKKNe4D",
+          "name": "Bearer Auth account"
+        },
+        "httpHeaderAuth": {
+          "id": "jXL8yIoZJ2hRazsc",
+          "name": "Header Auth account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $('AI生成分析报告').item.json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1020
+      ],
+      "id": "14e5d1b3-30a6-4f7c-9bea-66dadc7ae764",
+      "name": "Markdown",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8,
+              "triggerAtMinute": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        60,
+        80
+      ],
+      "id": "ba023a97-c149-4d4f-8c6c-d5e7f725a124",
+      "name": "定时触发"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://203.174.83.58:11235/md",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"https://cn.govopendata.com/xinwenlianbo/{{ $now.minus({days: 1}).toFormat('yyyyMMdd') }}/\",\n  \"f\": \"fit\",\n  \"q\": \"\",\n  \"c\": \"0\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        80
+      ],
+      "id": "c30a17e2-9648-4839-a769-43daa1942008",
+      "name": "AI爬取昨日新闻联播文字稿",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "kkONb8tlqvKKNe4D",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.markdown }}",
+        "options": {
+          "systemMessage": "角色设定：\n你是一位精通金融市场分析、政策解读和行业趋势预测的智能投资顾问。请基于提供的新闻信息，结合宏观经济、产业政策和市场情绪，从以下维度提供专业投资建议。\n\n输出要求：\n\n政策关联性分析\n\n提炼新闻中涉及的国家政策/国际事件\n\n分析政策层级（国家级/部委级/地方级）\n\n评估政策力度（革命性/重大调整/常规性）\n\n消息面解读\n\n识别受影响的核心产业板块\n\n判断消息性质（长期利好/短期刺激/潜在利空）\n\n评估市场反应预期（强烈/温和/滞后）\n\n板块机会预测\n→ 重点推荐板块（3-5个）\n\n推荐逻辑（政策直接受益链/产业传导路径）\n\n预期涨幅窗口（1周/1月/季度）\n\n相关指标参考（历史政策后板块平均涨幅）\n\n→ 潜在风险提示\n\n政策落地不确定性\n\n市场过度反应风险\n\n关联利空因素\n\n操作建议\n★ 激进策略：短期事件驱动型标的\n★ 稳健策略：中长期政策受益龙头\n★ 对冲建议：可能受抑制的关联板块\n\n示例输出结构：\n[新闻概要提炼]（50字内关键信息提取）\n[政策力度评级]（⭐⭐⭐～⭐⭐⭐⭐⭐）\n[机会板块矩阵]（按预期收益/风险比排序）\n[操作时间窗口]（建议建仓/观察时段）\n[重点标的特征]（市值范围/财务指标/技术形态）\n\n附加要求：\n\n区分确定性结论与概率判断\n\n注明信息时效性警示\n\n采用机构研报表述规范\n\n回避具体个股推荐\n\n加入市场情绪量化指标（0-100分）\n\n请按以下模板格式输出规范的文本，只取结构，不取内容，不要有其他多余文字。\n\n# 📈 金融资讯分析报告 | 投资策略建议\n\n## 🔍 一、政策关联性评估\n### 1.1 政策强度分析\n| 评估维度       | 内容描述                     | 评级符号           |\n|----------------|------------------------------|--------------------|\n| **政策主体**   | 国务院/发改委/工信部          | 🏛️ 国家级          |\n| **影响范围**   | 新能源/数字经济/高端制造      | 🌐 跨行业覆盖       |\n| **执行力度**   | 财政补贴+税收优惠+专项债支持  | 💪🏼⭐⭐⭐⭐ (8.5/10) |\n\n### 1.2 政策传导路径\n| 传导层级      | 受益领域              | 影响时效   | 备注                 |\n|---------------|-----------------------|------------|----------------------|\n| ❶ 直接受益    | 光伏组件/储能设备     | 🕒 1-3个月  | 🚀 订单量增长30%+    |\n| ❷ 二级传导    | 特高压输配电          | 🕒 6-12个月 | 🔋 配套需求释放      |\n| ❸ 衍生影响    | 碳交易服务            | 🕒 1年以上  | 🌱 长期政策红利      |\n\n## 📰 二、消息面多维解读\n### 2.1 事件影响矩阵\n| 消息类型       | 影响板块       | 情绪指数 | 资金敏感度   |\n|----------------|----------------|----------|--------------|\n| 🔥 重大利好    | 半导体材料     | 85/100   | 💸💸💸💸      |\n| ⚡ 短期刺激    | 消费电子       | 72/100   | 💸💸💸        |\n| ⚠️ 潜在风险    | 传统能源       | 38/100   | 🛑 资金流出   |\n\n### 2.2 历史数据对标\n| 可比政策       | 相似板块       | 次月平均涨幅 | 超额收益期   |\n|----------------|----------------|-------------|--------------|\n| 2020新基建     | 5G基建         | +45%        | 🕒 14周       |\n| 2021双碳目标   | 风电设备       | +68%        | 🕒 22周       |\n\n## 💹 三、板块机会预测\n### 3.1 核心赛道推荐\n| 板块名称       | 驱动逻辑                     | 预期涨幅 | 最佳配置时段 |\n|----------------|------------------------------|----------|--------------|\n| 🏆 工业母机    | 专精特新政策+进口替代加速     | ▲25-30%  | 10-12月      |\n| 🌞 光伏EPC     | 海外订单暴增+硅料降价红利     | ▲35-40%  | 2024Q1       |\n| ⚡ 智能电网    | 新型电力系统建设提速          | ▲20-25%  | 跨年度布局    |\n\n### 3.2 风险预警看板\n| 风险类型       | 影响板块       | 概率指数 | 防御建议     |\n|----------------|----------------|----------|--------------|\n| 🌀 技术迭代    | 锂电池         | 40%      | 减持二线厂商 |\n| 💼 政策调整    | 房地产         | 55%      | 对冲配置     |\n| 🌪️ 国际博弈    | 芯片设备       | 30%      | 分散持仓     |\n\n## 💼 四、操作策略建议\n### 4.1 多策略组合\n| 策略类型       | 配置方向       | 仓位建议 | 持有周期     |\n|----------------|----------------|----------|--------------|\n| 🚀 激进策略    | 科创板ETF      | ≤30%     | 3-6个月      |\n| 🛡️ 稳健策略    | 电力运营商     | 45%      | 1年以上      |\n| ⚖️ 对冲策略    | 黄金概念       | 25%      | 事件驱动     |\n\n### 4.2 关键参数指引\n| 监测指标       | 当前阈值       | 预警信号 | 应对措施     |\n|----------------|----------------|----------|--------------|\n| 板块换手率     | >15%           | 🚨       | 分批止盈     |\n| 政策落地进度   | <60%           | ⚠️       | 动态调仓     |\n| 外资流向       | 单日净卖超50亿 | 🛑       | 启动对冲     |\n\n---\n\n📌 **时效性提示**：本报告有效期至2023-12-15，超额收益窗口期约8-12周  \n🔔 **风险警示**：历史表现不代表未来收益，需配合专业投顾建议  \n✅ **合规声明**：本分析不涉及个股推荐，数据来源公开资讯整理\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        480,
+        80
+      ],
+      "id": "7719d23d-e138-4d6d-a022-ddb59f8c38d2",
+      "name": "AI生成分析报告"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sy.xujw.top/api/filetree/createDocWithMd",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "notebook",
+              "value": "20250521115052-c9r5wxt"
+            },
+            {
+              "name": "path",
+              "value": "=/{{ $now.minus({days: 1}).toFormat('yyyy-MM-dd') }}"
+            },
+            {
+              "name": "markdown",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        80
+      ],
+      "id": "a77e0e85-ac58-4337-b242-43a251f78b80",
+      "name": "推送到思源笔记",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "aqXbqKoZhEdY8PzZ",
+          "name": "siyuantoken"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "deepseek/deepseek-chat-v3-0324:free",
+          "mode": "list",
+          "cachedResultName": "deepseek/deepseek-chat-v3-0324:free"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        360,
+        300
+      ],
+      "id": "e5a01276-99b4-4e2e-800b-71ebcfed4d13",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Bwes6PXsmyDSHscF",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Shanghai",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 1
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:定时触发": {
+      "recurrenceRules": []
+    }
+  },
+  "tags": [
+    {
+      "createdAt": "2025-05-24T03:23:31.739Z",
+      "updatedAt": "2025-05-24T03:23:31.739Z",
+      "id": "TGYNLPQzuXcqxoDv",
+      "name": "xwlb"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-05-25T10:37:56.000Z",
+  "versionId": "66549b6a-3f0c-46cf-aba2-e7e941205f42"
+}
