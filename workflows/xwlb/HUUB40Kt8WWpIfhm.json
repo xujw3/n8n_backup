@@ -77,6 +77,39 @@
           }
         ]
       ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI生成分析报告",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI生成分析报告",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI生成分析报告",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
@@ -330,6 +363,69 @@
           "name": "siyuantoken"
         }
       }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $workflow.id }}",
+        "sessionTTL": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        600,
+        300
+      ],
+      "id": "423d7a63-adb8-4583-8c09-fad1c3ac1b81",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "Io336gD02EwZyUZI",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "connectionType": "sse"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        740,
+        300
+      ],
+      "id": "f511e0c1-3eb2-442a-a28a-b990e888aa6d",
+      "name": "MCP Client",
+      "credentials": {
+        "mcpClientSseApi": {
+          "id": "a9P9x1TCsG7RrBLI",
+          "name": "cnstock"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "connectionType": "sse",
+        "operation": "executeTool",
+        "toolName": "{{}}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        840,
+        300
+      ],
+      "id": "c29f1559-e563-4919-bc61-da8a299d84fd",
+      "name": "MCP Client1",
+      "credentials": {
+        "mcpClientSseApi": {
+          "id": "a9P9x1TCsG7RrBLI",
+          "name": "cnstock"
+        }
+      },
+      "disabled": true
     }
   ],
   "pinData": {},
@@ -356,6 +452,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-05-24T03:23:36.000Z",
-  "versionId": "eacc66b3-f348-46c7-a6c6-751972677966"
+  "updatedAt": "2025-05-31T02:59:48.000Z",
+  "versionId": "1db9e83a-a5c5-44e8-b240-4d80e7305fb6"
 }
