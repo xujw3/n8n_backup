@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -35,15 +35,17 @@
       "webhookId": "bd4e4095-7011-4edb-ada9-22ca074f7239"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         220,
         0
       ],
-      "id": "7c76a8b1-6405-4aa1-b619-e56f8a998570",
-      "name": "No Operation, do nothing"
+      "id": "aaee3676-63e8-419a-a563-335661d616af",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {},
@@ -60,6 +62,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-04T03:36:30.000Z",
-  "versionId": "1ec50095-f1cd-4a7b-b097-5db434f6d492"
+  "updatedAt": "2025-06-04T09:56:21.000Z",
+  "versionId": "b1dcc5b1-cb6f-41a1-9771-eaea703e135b"
 }
