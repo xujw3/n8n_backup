@@ -1,0 +1,58 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-04T00:42:30.845Z",
+  "id": "7chdGLZzsi1VouHY",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "bd4e4095-7011-4edb-ada9-22ca074f7239",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "329aa848-2e4b-4eaf-98ef-5d7dee1ffcfe",
+      "name": "Webhook",
+      "webhookId": "bd4e4095-7011-4edb-ada9-22ca074f7239"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "7c76a8b1-6405-4aa1-b619-e56f8a998570",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-04T00:46:07.000Z",
+  "versionId": "3846273a-8b9b-4f9a-8cde-cd0a4dd96ea7"
+}
