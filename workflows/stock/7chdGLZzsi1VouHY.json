@@ -12,22 +12,11 @@
         ]
       ]
     },
-    "dingTalkParams": {
-      "main": [
-        [
-          {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Split Out": {
       "main": [
         [
           {
-            "node": "dingTalkParams",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -48,6 +37,46 @@
     "HTTP Request": {
       "main": [
         []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "弱转强通知参数",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "T0通知参数",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "弱转强通知参数": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "T0通知参数": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -75,55 +104,14 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6a2ea7b4-80b1-4d6b-9e5a-67e15daac4c7",
-              "name": "secret",
-              "value": "SECbe3a4719d249322bca15d9c9334a80200520b9d7e0d68f9ba59f84122c418901",
-              "type": "string"
-            },
-            {
-              "id": "9da5dfd0-60aa-4a66-99e3-589ab597de44",
-              "name": "access_token",
-              "value": "23c21e66a34a0e6ef959322562d4a996e1c29ac8abb3dfe760826d38f3b51d7d",
-              "type": "string"
-            },
-            {
-              "id": "156e78e6-dc64-413c-b9e8-5f370b048e85",
-              "name": "message_title",
-              "value": "={{ $json.description }}",
-              "type": "string"
-            },
-            {
-              "id": "d96ea659-2e8d-4cc7-9818-cb13c33c97dc",
-              "name": "message_text",
-              "value": "=#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        440,
-        0
-      ],
-      "id": "9db95aa0-b97c-46bb-ae69-72483e8c74f2",
-      "name": "dingTalkParams"
-    },
-    {
-      "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "// 确保已设置 NODE_FUNCTION_ALLOW_BUILTIN=crypto 环境变量\nconst crypto = require('crypto');\n\n// --- 配置区域 ---\n// 强烈建议使用 n8n 的凭据 (Credentials) 或环境变量来存储你的密钥和 Access Token\n// 获取方式示例 (优先级：特定凭据 > 环境变量 > 硬编码的默认值)\n\n// 1. 钉钉机器人的密钥 (Secret)\n//    请替换 'YOUR_DINGTALK_CREDENTIAL_NAME' 为你创建的包含密钥的凭据名称\n//    或者设置名为 DINGTALK_SECRET 的环境变量\nlet DINGTALK_SECRET;\nDINGTALK_SECRET = $json.secret; // 仅作示例，强烈建议删除此行或确保其安全\n\n\n// 2. 钉钉机器人的 Access Token\n//    请替换 'YOUR_DINGTALK_CREDENTIAL_NAME' (如果和上面是同一个凭据)\n//    或者设置名为 DINGTALK_ACCESS_TOKEN 的环境变量\nlet DINGTALK_ACCESS_TOKEN;\nDINGTALK_ACCESS_TOKEN = $json.access_token;\n\n// --- 配置区域结束 ---\n\n// 获取当前正在被处理的单个数据项\nconst item = $input.item;\n\n// 1. 从当前输入项 (item.json) 中提取用于生成消息的数据\n//    你需要根据你的实际输入数据结构来调整这里的字段名\nconst messageTitle = $json.message_title;\nconst messageText = $json.message_text;\n\n// 2. 生成时间戳 (毫秒)\nconst timestamp = String(Date.now());\n\n// 3. 计算签名\nconst stringToSign = `${timestamp}\\n${DINGTALK_SECRET}`;\nconst hmac = crypto.createHmac('sha256', DINGTALK_SECRET);\nhmac.update(stringToSign, 'utf-8');\nconst base64EncodedSign = hmac.digest('base64');\nconst sign = encodeURIComponent(base64EncodedSign);\n\n// 4. 构建钉钉 Webhook URL (包含签名)\nconst webhookUrl = `https://oapi.dingtalk.com/robot/send?access_token=${DINGTALK_ACCESS_TOKEN}&timestamp=${timestamp}&sign=${sign}`;\n\n// 5. 构建钉钉消息体 (Markdown 格式)\nconst messageBody = {\n  msgtype: \"markdown\",\n  markdown: {\n    title: messageTitle,\n    text: messageText\n  }\n};\n\n// 6. 将准备好的 URL 和消息体添加到当前项目的 JSON 数据中\n//    这些字段可以在后续的 HTTP Request 节点中使用\nitem.json.preparedDingTalkUrl = webhookUrl;\nitem.json.preparedDingTalkBody = messageBody;\n\n// （可选）也可以添加时间戳和签名本身，用于调试或记录\nitem.json.debug_dingTalkTimestamp = timestamp;\nitem.json.debug_dingTalkSign = sign;\n\n// 返回修改后的当前单个数据项\nreturn item;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        660,
-        0
+        840,
+        -20
       ],
       "id": "7855866a-d793-45e8-97ea-dc07088b0921",
       "name": "Code"
@@ -161,11 +149,127 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        880,
-        0
+        1040,
+        -20
       ],
       "id": "14f4ba27-8da8-4cc8-b8c7-10f24d87690c",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "18be2259-b8e9-474e-90e2-a4c36d1859b3",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "竞价弱转强",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "70e7b494-d095-4520-9674-fb4705a7e21d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a2ea7b4-80b1-4d6b-9e5a-67e15daac4c7",
+              "name": "secret",
+              "value": "SECbe3a4719d249322bca15d9c9334a80200520b9d7e0d68f9ba59f84122c418901",
+              "type": "string"
+            },
+            {
+              "id": "9da5dfd0-60aa-4a66-99e3-589ab597de44",
+              "name": "access_token",
+              "value": "23c21e66a34a0e6ef959322562d4a996e1c29ac8abb3dfe760826d38f3b51d7d",
+              "type": "string"
+            },
+            {
+              "id": "156e78e6-dc64-413c-b9e8-5f370b048e85",
+              "name": "message_title",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "d96ea659-2e8d-4cc7-9818-cb13c33c97dc",
+              "name": "message_text",
+              "value": "=#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        -120
+      ],
+      "id": "9db95aa0-b97c-46bb-ae69-72483e8c74f2",
+      "name": "弱转强通知参数"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a2ea7b4-80b1-4d6b-9e5a-67e15daac4c7",
+              "name": "secret",
+              "value": "SEC4936076d2dde4fb9e398d21c8ff62a6bd804219c3ec00c857a4993728640b756",
+              "type": "string"
+            },
+            {
+              "id": "9da5dfd0-60aa-4a66-99e3-589ab597de44",
+              "name": "access_token",
+              "value": "1ee9e95c6b5db8740791ba25c2adb76269656f066da7da3cb84530a9b07a8320",
+              "type": "string"
+            },
+            {
+              "id": "156e78e6-dc64-413c-b9e8-5f370b048e85",
+              "name": "message_title",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "d96ea659-2e8d-4cc7-9818-cb13c33c97dc",
+              "name": "message_text",
+              "value": "=## {{ $json.description }}\n#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        80
+      ],
+      "id": "78fd6389-5c90-4881-8b79-d5dae891c308",
+      "name": "T0通知参数"
     }
   ],
   "pinData": {
@@ -290,7 +394,7 @@
               "price": 31.34,
               "percentage": "0.42%",
               "volume": 28,
-              "description": "竞价弱转强"
+              "description": "分时卖出信号"
             }
           ],
           "webhookUrl": "https://n8n-1.eco.us.kg/webhook-test/bd4e4095-7011-4edb-ada9-22ca074f7239",
@@ -312,6 +416,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-04T14:00:02.000Z",
-  "versionId": "0ba03a9d-1c2f-4f3b-92d2-c608a86f30cb"
+  "updatedAt": "2025-06-04T14:23:22.000Z",
+  "versionId": "1b33c362-ff89-472a-ac8e-1817b3777b16"
 }
