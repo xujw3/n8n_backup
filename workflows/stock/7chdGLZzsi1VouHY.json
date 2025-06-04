@@ -33,13 +33,29 @@
           }
         ]
       ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
     }
   },
   "createdAt": "2025-06-04T00:42:30.845Z",
   "id": "7chdGLZzsi1VouHY",
   "isArchived": false,
   "meta": null,
-  "name": "tdx",
+  "name": "通达信弱转强",
   "nodes": [
     {
       "parameters": {
@@ -101,7 +117,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// 你使用 crypto 模块的代码会写在这里\n// 例如，创建一个时间戳并对其签名：\nconst secret = '你的密钥'; // 替换成你的真实密钥，或者从凭据中获取\nconst timestamp = String(Date.now()); // 或者 Math.round(new Date().getTime())\nconst stringToSign = `${timestamp}\\n${secret}`;\n\nconst sign = crypto\n  .createHmac('sha256', secret)\n  .update(stringToSign)\n  .digest('base64'); // 你可能还需要 encodeURIComponent(sign)\n\n// 将结果添加到 item 中，以便后续节点使用\nitem.timestamp = timestamp;\nitem.calculatedSign = sign; // 确保下游节点期望的输出变量名是这个\n\nreturn item;"
+        "jsCode": "// 确保已设置 NODE_FUNCTION_ALLOW_BUILTIN=crypto 环境变量\nconst crypto = require('crypto');\n\n// --- 配置区域 ---\n// 强烈建议使用 n8n 的凭据 (Credentials) 或环境变量来存储你的密钥和 Access Token\n// 获取方式示例 (优先级：特定凭据 > 环境变量 > 硬编码的默认值)\n\n// 1. 钉钉机器人的密钥 (Secret)\n//    请替换 'YOUR_DINGTALK_CREDENTIAL_NAME' 为你创建的包含密钥的凭据名称\n//    或者设置名为 DINGTALK_SECRET 的环境变量\nlet DINGTALK_SECRET;\nDINGTALK_SECRET = $json.secret; // 仅作示例，强烈建议删除此行或确保其安全\n\n\n// 2. 钉钉机器人的 Access Token\n//    请替换 'YOUR_DINGTALK_CREDENTIAL_NAME' (如果和上面是同一个凭据)\n//    或者设置名为 DINGTALK_ACCESS_TOKEN 的环境变量\nlet DINGTALK_ACCESS_TOKEN;\nDINGTALK_ACCESS_TOKEN = $json.access_token;\n\n// --- 配置区域结束 ---\n\n// 获取当前正在被处理的单个数据项\nconst item = $input.item;\n\n// 1. 从当前输入项 (item.json) 中提取用于生成消息的数据\n//    你需要根据你的实际输入数据结构来调整这里的字段名\nconst messageTitle = $json.message_title;\nconst messageText = $json.message_text;\n\n// 2. 生成时间戳 (毫秒)\nconst timestamp = String(Date.now());\n\n// 3. 计算签名\nconst stringToSign = `${timestamp}\\n${DINGTALK_SECRET}`;\nconst hmac = crypto.createHmac('sha256', DINGTALK_SECRET);\nhmac.update(stringToSign, 'utf-8');\nconst base64EncodedSign = hmac.digest('base64');\nconst sign = encodeURIComponent(base64EncodedSign);\n\n// 4. 构建钉钉 Webhook URL (包含签名)\nconst webhookUrl = `https://oapi.dingtalk.com/robot/send?access_token=${DINGTALK_ACCESS_TOKEN}&timestamp=${timestamp}&sign=${sign}`;\n\n// 5. 构建钉钉消息体 (Markdown 格式)\nconst messageBody = {\n  msgtype: \"markdown\",\n  markdown: {\n    title: messageTitle,\n    text: messageText\n  }\n};\n\n// 6. 将准备好的 URL 和消息体添加到当前项目的 JSON 数据中\n//    这些字段可以在后续的 HTTP Request 节点中使用\nitem.json.preparedDingTalkUrl = webhookUrl;\nitem.json.preparedDingTalkBody = messageBody;\n\n// （可选）也可以添加时间戳和签名本身，用于调试或记录\nitem.json.debug_dingTalkTimestamp = timestamp;\nitem.json.debug_dingTalkSign = sign;\n\n// 返回修改后的当前单个数据项\nreturn item;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -125,6 +141,31 @@
       ],
       "id": "4c0c8544-ecd2-4fe3-bc6b-658b2b61d937",
       "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.preparedDingTalkUrl }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.preparedDingTalkBody }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 500
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "14f4ba27-8da8-4cc8-b8c7-10f24d87690c",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {
@@ -271,6 +312,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-04T12:52:42.000Z",
-  "versionId": "4bf26467-a724-4556-b26d-efbd6328b3cd"
+  "updatedAt": "2025-06-04T14:00:02.000Z",
+  "versionId": "0ba03a9d-1c2f-4f3b-92d2-c608a86f30cb"
 }
