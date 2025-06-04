@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Webhook": {
       "main": [
@@ -27,7 +27,7 @@
       "main": [
         [
           {
-            "node": "dingTalkParams",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -48,6 +48,17 @@
     "HTTP Request": {
       "main": [
         []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "dingTalkParams",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -80,13 +91,13 @@
             {
               "id": "6a2ea7b4-80b1-4d6b-9e5a-67e15daac4c7",
               "name": "secret",
-              "value": "SECbe3a4719d249322bca15d9c9334a80200520b9d7e0d68f9ba59f84122c418901",
+              "value": "SEC4936076d2dde4fb9e398d21c8ff62a6bd804219c3ec00c857a4993728640b756",
               "type": "string"
             },
             {
               "id": "9da5dfd0-60aa-4a66-99e3-589ab597de44",
               "name": "access_token",
-              "value": "23c21e66a34a0e6ef959322562d4a996e1c29ac8abb3dfe760826d38f3b51d7d",
+              "value": "1ee9e95c6b5db8740791ba25c2adb76269656f066da7da3cb84530a9b07a8320",
               "type": "string"
             },
             {
@@ -98,7 +109,7 @@
             {
               "id": "d96ea659-2e8d-4cc7-9818-cb13c33c97dc",
               "name": "message_text",
-              "value": "=#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
+              "value": "=## \n#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
               "type": "string"
             }
           ]
@@ -108,7 +119,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        440,
+        660,
         0
       ],
       "id": "6c9f5f1a-8a04-4ea8-bccb-01b214dfacd5",
@@ -122,7 +133,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        660,
+        880,
         0
       ],
       "id": "4af4c7d4-cfbc-4f3f-a75d-ed9d5fdfe037",
@@ -161,11 +172,45 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        880,
+        1100,
         0
       ],
       "id": "7b04491f-d2bd-49fc-870c-a5efe9e58596",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1bc13504-821a-4a55-a802-57be60315115",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "f86fc335-1cda-4f45-a589-5f8af2d17c78",
+      "name": "If"
     }
   ],
   "pinData": {
@@ -312,6 +357,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-04T14:00:18.460Z",
-  "versionId": "a53ff57d-da3b-4e18-b9bd-6979df723fc9"
+  "updatedAt": "2025-06-04T14:13:59.000Z",
+  "versionId": "7a65d725-0c58-43ad-a397-0f16110df7e6"
 }
