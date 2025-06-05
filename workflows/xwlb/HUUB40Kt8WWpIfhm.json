@@ -88,28 +88,6 @@
           }
         ]
       ]
-    },
-    "MCP Client": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI生成分析报告",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "MCP Client1": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI生成分析报告",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
@@ -154,7 +132,7 @@
       "typeVersion": 1,
       "position": [
         460,
-        280
+        300
       ],
       "id": "06276323-e53e-4ef7-a2ba-67b413bff6c9",
       "name": "Google Gemini Chat Model",
@@ -373,7 +351,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        600,
+        620,
         300
       ],
       "id": "423d7a63-adb8-4583-8c09-fad1c3ac1b81",
@@ -384,48 +362,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "connectionType": "sse"
-      },
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        740,
-        300
-      ],
-      "id": "f511e0c1-3eb2-442a-a28a-b990e888aa6d",
-      "name": "MCP Client",
-      "credentials": {
-        "mcpClientSseApi": {
-          "id": "a9P9x1TCsG7RrBLI",
-          "name": "cnstock"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "connectionType": "sse",
-        "operation": "executeTool",
-        "toolName": "{{}}"
-      },
-      "type": "n8n-nodes-mcp.mcpClientTool",
-      "typeVersion": 1,
-      "position": [
-        840,
-        300
-      ],
-      "id": "c29f1559-e563-4919-bc61-da8a299d84fd",
-      "name": "MCP Client1",
-      "credentials": {
-        "mcpClientSseApi": {
-          "id": "a9P9x1TCsG7RrBLI",
-          "name": "cnstock"
-        }
-      },
-      "disabled": true
     }
   ],
   "pinData": {},
@@ -433,7 +369,8 @@
     "executionOrder": "v1",
     "timezone": "Asia/Shanghai",
     "callerPolicy": "workflowsFromSameOwner",
-    "timeSavedPerExecution": 1
+    "timeSavedPerExecution": 1,
+    "errorWorkflow": "5w6F6ihBkKzwug8i"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -452,6 +389,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-05-31T02:59:48.000Z",
-  "versionId": "1db9e83a-a5c5-44e8-b240-4d80e7305fb6"
+  "updatedAt": "2025-06-05T09:18:46.000Z",
+  "versionId": "e65f4d49-6fc5-44c6-ab56-7a7a66bd56a5"
 }
