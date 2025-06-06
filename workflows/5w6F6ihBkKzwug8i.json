@@ -1,6 +1,18 @@
 {
   "active": false,
-  "connections": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2025-06-05T09:15:39.808Z",
   "id": "5w6F6ihBkKzwug8i",
   "isArchived": false,
@@ -17,6 +29,33 @@
       ],
       "id": "52dbb8d7-ae12-402e-9e98-07761f779bfb",
       "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "HUUB40Kt8WWpIfhm",
+          "mode": "list",
+          "cachedResultName": "新闻联播"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "eefad57b-73ee-49df-a336-2485d572d9a4",
+      "name": "Execute Workflow"
     }
   ],
   "pinData": {},
@@ -26,6 +65,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-06-05T09:15:46.000Z",
-  "versionId": "0d98a679-826f-447d-b2c2-36af88824659"
+  "updatedAt": "2025-06-06T01:00:37.000Z",
+  "versionId": "d0684d83-ef28-4d84-b255-e80ade4605ab"
 }
