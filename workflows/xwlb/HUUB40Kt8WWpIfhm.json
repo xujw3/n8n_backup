@@ -12,39 +12,6 @@
         ]
       ]
     },
-    "HTTP Request1": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Markdown": {
-      "main": [
-        [
-          {
-            "node": "Send Email",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Email": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "定时触发": {
       "main": [
         [
@@ -88,6 +55,17 @@
           }
         ]
       ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI爬取昨日新闻联播文字稿",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
@@ -100,38 +78,13 @@
   "nodes": [
     {
       "parameters": {
-        "fromEmail": "794109876@qq.com",
-        "toEmail": "793652832@qq.com",
-        "subject": "={{ $json.formattedDate }}新闻联播资讯",
-        "html": "={{ $json.data }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [
-        400,
-        1020
-      ],
-      "id": "e4975378-67bf-46a1-bb47-cb51999d1bd6",
-      "name": "Send Email",
-      "webhookId": "47712f6c-82b1-4cda-a360-dcb65fab9681",
-      "credentials": {
-        "smtp": {
-          "id": "943D8YV0KZW8WwZ2",
-          "name": "SMTP account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
         "modelName": "models/gemini-2.5-pro-preview-05-06",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        460,
+        480,
         300
       ],
       "id": "06276323-e53e-4ef7-a2ba-67b413bff6c9",
@@ -142,102 +95,6 @@
           "name": "xujw13-pro2"
         }
       }
-    },
-    {
-      "parameters": {
-        "url": "=https://bj.xujw.top/etapi/calendar/days/{{ $('Date & Time1').item.json.formattedDate }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        580,
-        1020
-      ],
-      "id": "9dc01d63-30f5-4254-9dfc-67801a6ec77f",
-      "name": "HTTP Request1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "kkONb8tlqvKKNe4D",
-          "name": "Bearer Auth account"
-        },
-        "httpHeaderAuth": {
-          "id": "jXL8yIoZJ2hRazsc",
-          "name": "Header Auth account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://bj.xujw.top/etapi/create-note",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "parentNoteId",
-              "value": "={{ $json.noteId }}"
-            },
-            {
-              "name": "title",
-              "value": "新闻联播机会"
-            },
-            {
-              "name": "type",
-              "value": "code"
-            },
-            {
-              "name": "content",
-              "value": "={{ $('AI生成分析报告').item.json.output }}"
-            },
-            {
-              "name": "mime",
-              "value": "Markdown"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        780,
-        1020
-      ],
-      "id": "1e03b862-9bb5-47b0-a58c-dfa27b4b30bc",
-      "name": "HTTP Request2",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "kkONb8tlqvKKNe4D",
-          "name": "Bearer Auth account"
-        },
-        "httpHeaderAuth": {
-          "id": "jXL8yIoZJ2hRazsc",
-          "name": "Header Auth account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "mode": "markdownToHtml",
-        "markdown": "={{ $('AI生成分析报告').item.json.output }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.markdown",
-      "typeVersion": 1,
-      "position": [
-        200,
-        1020
-      ],
-      "id": "53661383-af14-447a-ba40-b2f0136eeee9",
-      "name": "Markdown",
-      "disabled": true
     },
     {
       "parameters": {
@@ -296,7 +153,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.9,
       "position": [
-        480,
+        500,
         80
       ],
       "id": "7e01b7ea-ea5a-467a-93f8-79495733bbc4",
@@ -330,7 +187,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        860,
+        876,
         80
       ],
       "id": "79da2b5b-b4e8-45c9-ae81-49c6915bf286",
@@ -351,7 +208,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        620,
+        648,
         300
       ],
       "id": "423d7a63-adb8-4583-8c09-fad1c3ac1b81",
@@ -362,6 +219,20 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        40,
+        260
+      ],
+      "id": "61d38e0b-92a6-4753-8335-5b3a4a7b1e32",
+      "name": "When Executed by Another Workflow"
     }
   ],
   "pinData": {},
@@ -389,6 +260,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-05T09:18:46.000Z",
-  "versionId": "e65f4d49-6fc5-44c6-ab56-7a7a66bd56a5"
+  "updatedAt": "2025-06-06T01:07:03.000Z",
+  "versionId": "a6b47e30-1153-4906-ada0-d7bdc56593bd"
 }
