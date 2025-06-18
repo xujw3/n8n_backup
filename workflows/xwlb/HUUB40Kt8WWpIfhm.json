@@ -70,6 +70,7 @@
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
   "id": "HUUB40Kt8WWpIfhm",
+  "isArchived": false,
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -134,6 +135,9 @@
       ],
       "id": "3dbd0f70-31f1-4c56-a845-692c6d9abdc3",
       "name": "AI爬取昨日新闻联播文字稿",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
       "credentials": {
         "httpBearerAuth": {
           "id": "kkONb8tlqvKKNe4D",
@@ -156,7 +160,10 @@
         80
       ],
       "id": "7e01b7ea-ea5a-467a-93f8-79495733bbc4",
-      "name": "AI生成分析报告"
+      "name": "AI生成分析报告",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
     },
     {
       "parameters": {
@@ -186,11 +193,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        876,
+        880,
         80
       ],
       "id": "79da2b5b-b4e8-45c9-ae81-49c6915bf286",
       "name": "推送到思源笔记",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
       "credentials": {
         "httpHeaderAuth": {
           "id": "aqXbqKoZhEdY8PzZ",
@@ -239,8 +249,7 @@
     "executionOrder": "v1",
     "timezone": "Asia/Shanghai",
     "callerPolicy": "workflowsFromSameOwner",
-    "timeSavedPerExecution": 1,
-    "errorWorkflow": "5w6F6ihBkKzwug8i"
+    "timeSavedPerExecution": 1
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -259,6 +268,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-06T01:07:03.000Z",
-  "versionId": "a6b47e30-1153-4906-ada0-d7bdc56593bd"
+  "updatedAt": "2025-06-18T03:25:10.000Z",
+  "versionId": "eb4287f3-10de-40f9-84e4-604a03f0ccf1"
 }
