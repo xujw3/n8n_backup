@@ -55,17 +55,6 @@
           }
         ]
       ]
-    },
-    "When Executed by Another Workflow": {
-      "main": [
-        [
-          {
-            "node": "AI爬取昨日新闻联播文字稿",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
@@ -78,7 +67,7 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "modelName": "models/gemini-2.5-flash-preview-05-20",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -91,8 +80,8 @@
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "lVVp4jEFFnW7SIPU",
-          "name": "xujw13-pro2"
+          "id": "44qqkMRqRWXe3Txc",
+          "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
@@ -228,20 +217,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{}"
-      },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        40,
-        260
-      ],
-      "id": "61d38e0b-92a6-4753-8335-5b3a4a7b1e32",
-      "name": "When Executed by Another Workflow"
     }
   ],
   "pinData": {},
@@ -268,6 +243,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-18T03:25:10.000Z",
-  "versionId": "eb4287f3-10de-40f9-84e4-604a03f0ccf1"
+  "updatedAt": "2025-06-18T08:34:17.000Z",
+  "versionId": "bea9fccc-8845-46a4-ba86-08722b22006c"
 }
