@@ -174,9 +174,19 @@
                 "operation": "equals",
                 "name": "filter.operator.equals"
               }
+            },
+            {
+              "id": "576537f1-1ef0-4347-991a-85289c0b3125",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "强者恒强",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
@@ -416,6 +426,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-04T14:23:22.000Z",
-  "versionId": "1b33c362-ff89-472a-ac8e-1817b3777b16"
+  "updatedAt": "2025-06-19T14:30:58.000Z",
+  "versionId": "2746b011-2b84-4401-8491-c4a5fc3df857"
 }
