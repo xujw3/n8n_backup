@@ -224,7 +224,7 @@
             {
               "id": "d96ea659-2e8d-4cc7-9818-cb13c33c97dc",
               "name": "message_text",
-              "value": "=#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}",
+              "value": "=#### {{ $json.name }} ({{ $json.code }})\n- **最新价**: ¥{{ $json.price }}\n- **涨幅**: {{ $json.percentage }}\n- **现量**: {{ $json.volume }}\n- **信号时间**: {{ $json.timestamp }}\n- **策略**: {{ $json.description }}",
               "type": "string"
             }
           ]
@@ -426,6 +426,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-19T14:30:58.000Z",
-  "versionId": "2746b011-2b84-4401-8491-c4a5fc3df857"
+  "updatedAt": "2025-06-20T03:44:34.000Z",
+  "versionId": "9d9532d2-0360-48fe-99f3-ac6e9d94f4f6"
 }
