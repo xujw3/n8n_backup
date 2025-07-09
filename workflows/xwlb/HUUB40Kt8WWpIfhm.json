@@ -67,7 +67,7 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash-preview-05-20",
+        "modelName": "models/gemini-2.5-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -206,7 +206,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        648,
+        640,
         300
       ],
       "id": "423d7a63-adb8-4583-8c09-fad1c3ac1b81",
@@ -243,6 +243,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-06-18T08:34:17.000Z",
-  "versionId": "bea9fccc-8845-46a4-ba86-08722b22006c"
+  "updatedAt": "2025-07-09T01:20:15.000Z",
+  "versionId": "64fbe21e-122a-4630-b859-8d99edc5801a"
 }
