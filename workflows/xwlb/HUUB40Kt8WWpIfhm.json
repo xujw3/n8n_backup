@@ -67,14 +67,13 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
         480,
-        300
+        304
       ],
       "id": "06276323-e53e-4ef7-a2ba-67b413bff6c9",
       "name": "Google Gemini Chat Model",
@@ -99,7 +98,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        60,
+        64,
         80
       ],
       "id": "9860930e-07ca-46cc-957f-0831a8a288e2",
@@ -119,7 +118,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        280,
+        288,
         80
       ],
       "id": "3dbd0f70-31f1-4c56-a845-692c6d9abdc3",
@@ -145,7 +144,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.9,
       "position": [
-        500,
+        512,
         80
       ],
       "id": "7e01b7ea-ea5a-467a-93f8-79495733bbc4",
@@ -207,7 +206,7 @@
       "typeVersion": 1.5,
       "position": [
         640,
-        300
+        304
       ],
       "id": "423d7a63-adb8-4583-8c09-fad1c3ac1b81",
       "name": "Redis Chat Memory",
@@ -243,6 +242,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-17T01:43:10.000Z",
-  "versionId": "61a11036-4d81-4dc4-9b2f-b7782135bd27"
+  "updatedAt": "2025-07-17T02:13:21.000Z",
+  "versionId": "03b42f94-5af7-41ea-801a-eb03d2b53478"
 }
