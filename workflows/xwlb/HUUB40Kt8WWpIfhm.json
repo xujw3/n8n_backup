@@ -108,7 +108,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=http://203.174.83.58:11235/md",
+        "url": "=https://crawl4ai-786381414681.us-west1.run.app/md",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendBody": true,
@@ -243,6 +243,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-09T01:20:15.000Z",
-  "versionId": "64fbe21e-122a-4630-b859-8d99edc5801a"
+  "updatedAt": "2025-07-17T01:43:10.000Z",
+  "versionId": "61a11036-4d81-4dc4-9b2f-b7782135bd27"
 }
