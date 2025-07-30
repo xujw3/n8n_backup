@@ -65,6 +65,17 @@
       "main": [
         []
       ]
+    },
+    "推送到思源笔记": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-05-21T13:19:53.219Z",
@@ -253,6 +264,24 @@
         }
       },
       "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://087iu0np-apprise.hf.space/notify",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"\",\n  \"body\": \"今日新闻联播推送思源笔记成功，思源笔记ID：{{ $json.data }}\",\n  \"urls\": [\n    \"dingtalk://SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191@c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1088,
+        80
+      ],
+      "id": "f1c8f9b0-2e63-4efe-86f1-78b04f0a5783",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {},
@@ -279,6 +308,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-29T09:56:57.000Z",
-  "versionId": "0a51f2ee-f34b-4f92-a77f-8bb6ad291e95"
+  "updatedAt": "2025-07-30T03:54:25.000Z",
+  "versionId": "69b1978b-5ad1-4f40-b877-feb079f5cae5"
 }
