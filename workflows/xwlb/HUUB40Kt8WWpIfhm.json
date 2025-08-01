@@ -228,6 +228,9 @@
       ],
       "id": "15ab4780-78a2-477f-aa15-c58102abe550",
       "name": "爬取昨日新闻联播文字稿",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
       "credentials": {
         "firecrawlApi": {
           "id": "4xmXAtZ11YE5Yeeh",
@@ -308,6 +311,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-07-30T03:54:25.000Z",
-  "versionId": "69b1978b-5ad1-4f40-b877-feb079f5cae5"
+  "updatedAt": "2025-08-01T09:35:37.000Z",
+  "versionId": "51cf5086-6f39-471c-84be-224923f28790"
 }
