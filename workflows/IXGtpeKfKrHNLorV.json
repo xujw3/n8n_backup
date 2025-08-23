@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Google Gemini Chat Model": {
       "ai_languageModel": [
@@ -181,7 +181,6 @@
     {
       "parameters": {
         "public": true,
-        "initialMessages": "请输入要爬取的网址。",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
@@ -261,6 +260,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-08-23T02:58:30.000Z",
-  "versionId": "76daba9d-f555-4abb-b598-ec80c6237dbf"
+  "updatedAt": "2025-08-23T03:09:23.000Z",
+  "versionId": "dda5edf9-5383-4f11-a120-7639224af1f0"
 }
