@@ -160,7 +160,7 @@
             },
             {
               "name": "path",
-              "value": "=/{{ $now.minus({days: 1}).toFormat('yyyy-MM-dd') }}"
+              "value": "=/{{ $now.minus({days: 1}).toFormat('yyyy-MM') }}/{{ $now.minus({days: 1}).toFormat('yyyy-MM-dd') }}"
             },
             {
               "name": "markdown",
@@ -311,6 +311,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-08-01T09:35:37.000Z",
-  "versionId": "51cf5086-6f39-471c-84be-224923f28790"
+  "updatedAt": "2025-09-02T07:14:17.000Z",
+  "versionId": "300dbcd5-00c1-4069-83ab-4083d6a0438a"
 }
