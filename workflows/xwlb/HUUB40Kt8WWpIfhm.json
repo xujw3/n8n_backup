@@ -160,7 +160,7 @@
             },
             {
               "name": "path",
-              "value": "=/{{ $now.minus({days: 1}).toFormat('yyyy-MM') }}/{{ $now.minus({days: 1}).toFormat('yyyy-MM-dd') }}"
+              "value": "=/{{ $now.minus({days: 1}).toFormat('yyyy') }}/{{ $now.minus({days: 1}).toFormat('MM') }}/{{ $now.minus({days: 1}).toFormat('yyyy-MM-dd') }}"
             },
             {
               "name": "markdown",
@@ -294,6 +294,15 @@
     "callerPolicy": "workflowsFromSameOwner",
     "timeSavedPerExecution": 1
   },
+  "shared": [
+    {
+      "createdAt": "2025-05-21T13:19:53.222Z",
+      "updatedAt": "2025-05-21T13:19:53.222Z",
+      "role": "workflow:owner",
+      "workflowId": "HUUB40Kt8WWpIfhm",
+      "projectId": "ZpLUuPAPWUwvLsjb"
+    }
+  ],
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
@@ -311,6 +320,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-09-02T07:14:17.000Z",
-  "versionId": "300dbcd5-00c1-4069-83ab-4083d6a0438a"
+  "updatedAt": "2025-09-02T09:48:29.000Z",
+  "versionId": "607b5360-4aa8-4b09-ad45-4262c07340f3"
 }
