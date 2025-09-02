@@ -250,6 +250,15 @@
     "callerPolicy": "workflowsFromSameOwner",
     "timeSavedPerExecution": 1
   },
+  "shared": [
+    {
+      "createdAt": "2025-08-23T02:42:42.260Z",
+      "updatedAt": "2025-08-23T02:42:42.260Z",
+      "role": "workflow:owner",
+      "workflowId": "IXGtpeKfKrHNLorV",
+      "projectId": "ZpLUuPAPWUwvLsjb"
+    }
+  ],
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
