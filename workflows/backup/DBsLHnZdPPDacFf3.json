@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "/": {
       "main": [
@@ -143,18 +143,6 @@
         ]
       ]
     },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Execute Workflow",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Execute Workflow": {
       "main": [
         [
@@ -249,6 +237,18 @@
           },
           {
             "node": "tag?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Execute Workflow",
             "type": "main",
             "index": 0
           }
@@ -547,19 +547,6 @@
     },
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "e720f89b-65e7-42cb-8764-3fd13022ad10",
-      "name": "Loop Over Items",
-      "type": "n8n-nodes-base.splitInBatches",
-      "position": [
-        992,
-        96
-      ],
-      "typeVersion": 3
-    },
-    {
-      "parameters": {
         "rule": {
           "interval": [
             {
@@ -824,6 +811,19 @@
         656
       ],
       "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "e720f89b-65e7-42cb-8764-3fd13022ad10",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        992,
+        96
+      ],
+      "typeVersion": 3
     }
   ],
   "pinData": {},
@@ -839,7 +839,11 @@
       "projectId": "lEFOoazMW0rDCnYR"
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [
     {
       "createdAt": "2025-09-24T05:20:35.995Z",
@@ -848,7 +852,7 @@
       "name": "backup"
     }
   ],
-  "triggerCount": 0,
-  "updatedAt": "2025-09-24T05:24:48.177Z",
-  "versionId": "5d3b5c35-7fe0-41ee-8f65-fad7e9dbc77b"
+  "triggerCount": 1,
+  "updatedAt": "2025-09-24T05:53:20.175Z",
+  "versionId": "7c193cfa-5c49-419f-ade0-5460230f212e"
 }
