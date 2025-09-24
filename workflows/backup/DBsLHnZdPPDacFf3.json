@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items",
+            "node": "Execute Workflow",
             "type": "main",
             "index": 0
           }
@@ -145,13 +145,7 @@
     },
     "Execute Workflow": {
       "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Schedule Trigger": {
@@ -237,18 +231,6 @@
           },
           {
             "node": "tag?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Execute Workflow",
             "type": "main",
             "index": 0
           }
@@ -583,8 +565,8 @@
     {
       "parameters": {
         "content": "## Main workflow loop",
-        "height": 434.88564057365943,
-        "width": 886.4410237965205,
+        "height": 435,
+        "width": 758,
         "color": 7
       },
       "id": "c38e05d8-b93c-4176-bbda-b4861959cd7b",
@@ -718,7 +700,7 @@
       "name": "Execute Workflow",
       "type": "n8n-nodes-base.executeWorkflow",
       "position": [
-        1200,
+        1008,
         96
       ],
       "typeVersion": 1.2
@@ -811,19 +793,6 @@
         656
       ],
       "typeVersion": 3.2
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "e720f89b-65e7-42cb-8764-3fd13022ad10",
-      "name": "Loop Over Items",
-      "type": "n8n-nodes-base.splitInBatches",
-      "position": [
-        992,
-        96
-      ],
-      "typeVersion": 3
     }
   ],
   "pinData": {},
@@ -853,6 +822,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-09-24T05:53:20.175Z",
-  "versionId": "7c193cfa-5c49-419f-ade0-5460230f212e"
+  "updatedAt": "2025-09-24T05:54:16.998Z",
+  "versionId": "584e031b-d214-4624-bfc0-05e3c2d25747"
 }
