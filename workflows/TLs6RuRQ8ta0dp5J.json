@@ -11,6 +11,17 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-11-03T13:03:44.725Z",
@@ -52,6 +63,12 @@
               "name": "body.quantity",
               "value": "={{ $json.body.quantity }}",
               "type": "number"
+            },
+            {
+              "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
+              "name": "body.type",
+              "value": "={{ $json.body.type }}",
+              "type": "string"
             }
           ]
         },
@@ -65,6 +82,24 @@
       ],
       "id": "8169fe36-6160-45ea-bb74-e701e9adf990",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://10.1.1.9:5000/api/trade",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "ceeaf009-7c7e-4188-bce9-f91d81864c0d",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {
@@ -115,6 +150,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-03T14:29:48.257Z",
-  "versionId": "60632b6b-5580-487e-b967-e8c592e633fb"
+  "updatedAt": "2025-11-03T15:13:37.358Z",
+  "versionId": "af3b41ac-ec3c-46db-91d5-fc2e47ad527d"
 }
