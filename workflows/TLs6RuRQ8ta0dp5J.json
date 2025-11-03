@@ -1,6 +1,18 @@
 {
   "active": true,
-  "connections": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "createdAt": "2025-11-03T13:03:44.725Z",
   "id": "TLs6RuRQ8ta0dp5J",
   "isArchived": false,
@@ -24,9 +36,70 @@
       "id": "60fbfc9d-1a42-4ede-a65a-dccddae5320e",
       "name": "Webhook",
       "webhookId": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
+              "name": "body.code",
+              "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
+              "type": "string"
+            },
+            {
+              "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
+              "name": "body.quantity",
+              "value": "={{ $json.body.quantity }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8169fe36-6160-45ea-bb74-e701e9adf990",
+      "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.xujw.top",
+            "user-agent": "python-requests/2.21.0",
+            "content-length": "166",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate",
+            "content-type": "application/json",
+            "x-forwarded-for": "47.95.17.97, 127.0.0.1",
+            "x-forwarded-host": "n8n.xujw.top",
+            "x-forwarded-proto": "http",
+            "x-real-ip": "47.95.17.97"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "username": "king",
+            "password": "xujinwen",
+            "strategy_id": null,
+            "code": "300163.XSHE",
+            "quantity": 20000,
+            "formatted_number": "7034744669",
+            "type": "order_value"
+          },
+          "webhookUrl": "https://n8n.xujw.top/webhook-test/ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -42,6 +115,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-03T13:36:33.884Z",
-  "versionId": "3e040548-e823-41a8-81d1-8b9cf398cc55"
+  "updatedAt": "2025-11-03T14:29:48.257Z",
+  "versionId": "60632b6b-5580-487e-b967-e8c592e633fb"
 }
