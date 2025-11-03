@@ -1,0 +1,47 @@
+{
+  "active": true,
+  "connections": {},
+  "createdAt": "2025-11-03T13:03:44.725Z",
+  "id": "TLs6RuRQ8ta0dp5J",
+  "isArchived": false,
+  "meta": null,
+  "name": "聚宽转QMT",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
+        "options": {
+          "responseData": "={\"收到了\"}"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "60fbfc9d-1a42-4ede-a65a-dccddae5320e",
+      "name": "Webhook",
+      "webhookId": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-03T13:03:44.725Z",
+      "createdAt": "2025-11-03T13:03:44.725Z",
+      "role": "workflow:owner",
+      "workflowId": "TLs6RuRQ8ta0dp5J",
+      "projectId": "lEFOoazMW0rDCnYR"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-03T13:36:33.884Z",
+  "versionId": "3e040548-e823-41a8-81d1-8b9cf398cc55"
+}
