@@ -35,7 +35,7 @@
         "httpMethod": "POST",
         "path": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
         "options": {
-          "responseData": "={\"收到了\"}"
+          "responseData": "success"
         }
       },
       "type": "n8n-nodes-base.webhook",
@@ -127,7 +127,7 @@
             "code": "300163.XSHE",
             "quantity": 20000,
             "formatted_number": "7034744669",
-            "type": "order_value"
+            "type": "order_target_value"
           },
           "webhookUrl": "https://n8n.xujw.top/webhook-test/ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
           "executionMode": "test"
@@ -150,6 +150,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-03T15:13:37.358Z",
-  "versionId": "af3b41ac-ec3c-46db-91d5-fc2e47ad527d"
+  "updatedAt": "2025-11-04T13:29:32.530Z",
+  "versionId": "0e765f96-e1a8-469f-a539-4fdbf39492cb"
 }
