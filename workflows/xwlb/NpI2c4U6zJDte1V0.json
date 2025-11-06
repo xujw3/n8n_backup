@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Google Gemini Chat Model": {
       "ai_languageModel": [
@@ -310,6 +310,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-09-24T05:53:14.725Z",
+  "updatedAt": "2025-11-06T09:19:07.360Z",
   "versionId": "138fe6a1-198b-40d5-801f-3e3b26c36ab6"
 }
