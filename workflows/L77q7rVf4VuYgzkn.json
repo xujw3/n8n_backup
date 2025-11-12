@@ -1,0 +1,155 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-12T15:41:18.407Z",
+  "id": "L77q7rVf4VuYgzkn",
+  "isArchived": false,
+  "meta": null,
+  "name": "聚宽转QMT-纯n8n-1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "b56e03cd-4b5c-4873-8e86-2f4583b9add3",
+        "options": {
+          "responseData": "success"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "53974057-4c5a-4e44-8b78-9c5f518b384c",
+      "name": "Webhook",
+      "webhookId": "b56e03cd-4b5c-4873-8e86-2f4583b9add3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
+              "name": "body.code",
+              "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
+              "type": "string"
+            },
+            {
+              "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
+              "name": "body.quantity",
+              "value": "={{ $json.body.quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
+              "name": "body.type",
+              "value": "={{ $json.body.type }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "29b53327-e7b8-49d4-8592-d309285ade76",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://10.1.1.9:5000/api/trade",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "de74b1bc-e6f5-46cd-add3-4a67f90a7e82",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.xujw.top",
+            "user-agent": "python-requests/2.21.0",
+            "content-length": "166",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate",
+            "content-type": "application/json",
+            "x-forwarded-for": "47.95.17.97, 127.0.0.1",
+            "x-forwarded-host": "n8n.xujw.top",
+            "x-forwarded-proto": "http",
+            "x-real-ip": "47.95.17.97"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "username": "king",
+            "password": "xujinwen",
+            "strategy_id": null,
+            "code": "300163.XSHE",
+            "quantity": 20000,
+            "formatted_number": "7034744669",
+            "type": "order_target_value"
+          },
+          "webhookUrl": "https://n8n.xujw.top/webhook-test/ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-12T15:41:18.407Z",
+      "createdAt": "2025-11-12T15:41:18.407Z",
+      "role": "workflow:owner",
+      "workflowId": "L77q7rVf4VuYgzkn",
+      "projectId": "lEFOoazMW0rDCnYR"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-12T15:41:18.407Z",
+  "versionId": "397c41d7-38e3-46ee-92bb-d3df96a33fe4"
+}
