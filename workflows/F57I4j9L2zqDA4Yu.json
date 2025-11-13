@@ -5,29 +5,7 @@
       "main": [
         [
           {
-            "node": "格式化数据",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "格式化数据": {
-      "main": [
-        [
-          {
-            "node": "Redis-存数据",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis-存数据": {
-      "main": [
-        [
-          {
-            "node": "Redis-入队列",
+            "node": "Redis-原子出队",
             "type": "main",
             "index": 0
           }
@@ -39,6 +17,17 @@
         [
           {
             "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis-原子出队": {
+      "main": [
+        [
+          {
+            "node": "Redis-入队列",
             "type": "main",
             "index": 0
           }
@@ -57,7 +46,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "70693cff-e089-43c8-bf8e-d834a1ade9d8",
+        "path": "/api/get_order",
         "responseMode": "responseNode",
         "options": {}
       },
@@ -70,74 +59,6 @@
       "id": "d1a847d1-a5e9-49be-aa1e-528a492f2aa9",
       "name": "Webhook",
       "webhookId": "70693cff-e089-43c8-bf8e-d834a1ade9d8"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
-              "name": "body.code",
-              "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
-              "type": "string"
-            },
-            {
-              "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
-              "name": "body.quantity",
-              "value": "={{ $json.body.quantity }}",
-              "type": "number"
-            },
-            {
-              "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
-              "name": "body.type",
-              "value": "={{ $json.body.type }}",
-              "type": "string"
-            },
-            {
-              "id": "9aabf9d1-0f59-49ac-927d-cbfd61197157",
-              "name": "body.signal_id",
-              "value": "={{ $json.body.formatted_number }}",
-              "type": "string"
-            },
-            {
-              "id": "8aa18f40-47a9-4fa5-af6b-b15ea18e047e",
-              "name": "body.status",
-              "value": "new",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        192,
-        0
-      ],
-      "id": "d820037f-b94a-46a0-8180-5c4494a9067d",
-      "name": "格式化数据"
-    },
-    {
-      "parameters": {
-        "operation": "set",
-        "key": "=signals:data: {{ $json.body.signal_id }}",
-        "value": "={{ JSON.stringify($json.body) }}"
-      },
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        416,
-        0
-      ],
-      "id": "4f24975b-da00-419e-8b00-700da137824c",
-      "name": "Redis-存数据",
-      "credentials": {
-        "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
-        }
-      }
     },
     {
       "parameters": {
@@ -174,6 +95,26 @@
       ],
       "id": "4c490b4c-7290-44d8-bff7-776ecc8678da",
       "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "pop",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "4f24975b-da00-419e-8b00-700da137824c",
+      "name": "Redis-原子出队",
+      "credentials": {
+        "redis": {
+          "id": "JC5eeJb2KKlWVuzf",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "pinData": {
@@ -224,6 +165,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-13T00:54:34.953Z",
-  "versionId": "9131b833-92dd-4110-b26b-6ef30204a11a"
+  "updatedAt": "2025-11-13T01:05:27.171Z",
+  "versionId": "d6cdc905-0497-4d06-a515-586b53bd6356"
 }
