@@ -1,0 +1,229 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "格式化数据",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "格式化数据": {
+      "main": [
+        [
+          {
+            "node": "Redis-存数据",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis-存数据": {
+      "main": [
+        [
+          {
+            "node": "Redis-入队列",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis-入队列": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-13T00:54:34.953Z",
+  "id": "F57I4j9L2zqDA4Yu",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "聚宽转QMT-纯n8n-QMT拉取",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "70693cff-e089-43c8-bf8e-d834a1ade9d8",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d1a847d1-a5e9-49be-aa1e-528a492f2aa9",
+      "name": "Webhook",
+      "webhookId": "70693cff-e089-43c8-bf8e-d834a1ade9d8"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
+              "name": "body.code",
+              "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
+              "type": "string"
+            },
+            {
+              "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
+              "name": "body.quantity",
+              "value": "={{ $json.body.quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
+              "name": "body.type",
+              "value": "={{ $json.body.type }}",
+              "type": "string"
+            },
+            {
+              "id": "9aabf9d1-0f59-49ac-927d-cbfd61197157",
+              "name": "body.signal_id",
+              "value": "={{ $json.body.formatted_number }}",
+              "type": "string"
+            },
+            {
+              "id": "8aa18f40-47a9-4fa5-af6b-b15ea18e047e",
+              "name": "body.status",
+              "value": "new",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "d820037f-b94a-46a0-8180-5c4494a9067d",
+      "name": "格式化数据"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=signals:data: {{ $json.body.signal_id }}",
+        "value": "={{ JSON.stringify($json.body) }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4f24975b-da00-419e-8b00-700da137824c",
+      "name": "Redis-存数据",
+      "credentials": {
+        "redis": {
+          "id": "JC5eeJb2KKlWVuzf",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "signals:new",
+        "messageData": "={{ $('格式化数据').item.json.body.signal_id }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "82df13eb-9c07-4f76-b321-9ee9f89d4ef0",
+      "name": "Redis-入队列",
+      "credentials": {
+        "redis": {
+          "id": "JC5eeJb2KKlWVuzf",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"status\": \"ok\", \"id_received\": \"{{ $('格式化数据').item.json.body.signal_id }}\"} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "4c490b4c-7290-44d8-bff7-776ecc8678da",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.xujw.top",
+            "user-agent": "python-requests/2.21.0",
+            "content-length": "165",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate",
+            "content-type": "application/json",
+            "x-forwarded-for": "39.105.225.127, 127.0.0.1",
+            "x-forwarded-host": "n8n.xujw.top",
+            "x-forwarded-proto": "http",
+            "x-real-ip": "39.105.225.127"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "username": "king",
+            "password": "xujinwe",
+            "strategy_id": null,
+            "code": "002591.XSHE",
+            "quantity": 10000,
+            "formatted_number": "5547733647",
+            "type": "order_value"
+          },
+          "webhookUrl": "https://n8n.xujw.top/webhook-test/b56e03cd-4b5c-4873-8e86-2f4583b9add3",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-11-13T00:54:34.953Z",
+      "createdAt": "2025-11-13T00:54:34.953Z",
+      "role": "workflow:owner",
+      "workflowId": "F57I4j9L2zqDA4Yu",
+      "projectId": "lEFOoazMW0rDCnYR"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-13T00:54:34.953Z",
+  "versionId": "9131b833-92dd-4110-b26b-6ef30204a11a"
+}
