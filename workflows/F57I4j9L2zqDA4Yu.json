@@ -1,18 +1,58 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Webhook": {
       "main": [
         [
           {
-            "node": "Redis-原子出队",
+            "node": "Redis Enhanced - Eval",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Redis-入队列": {
+    "Redis Enhanced - Eval": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Redis Enhanced",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Enhanced": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
       "main": [
         [
           {
@@ -23,11 +63,11 @@
         ]
       ]
     },
-    "Redis-原子出队": {
+    "Edit Fields": {
       "main": [
         [
           {
-            "node": "Redis-入队列",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -46,7 +86,7 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "/api/get_order",
+        "path": "api/get_order",
         "responseMode": "responseNode",
         "options": {}
       },
@@ -62,59 +102,152 @@
     },
     {
       "parameters": {
-        "operation": "push",
-        "list": "signals:new",
-        "messageData": "={{ $('格式化数据').item.json.body.signal_id }}"
-      },
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        624,
-        0
-      ],
-      "id": "82df13eb-9c07-4f76-b321-9ee9f89d4ef0",
-      "name": "Redis-入队列",
-      "credentials": {
-        "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\"status\": \"ok\", \"id_received\": \"{{ $('格式化数据').item.json.body.signal_id }}\"} ",
+        "respondWith": "allIncomingItems",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        832,
-        0
+        1152,
+        32
       ],
       "id": "4c490b4c-7290-44d8-bff7-776ecc8678da",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "operation": "pop",
-        "options": {}
+        "operation": "eval",
+        "script": "return redis.call('RPOPLPUSH', KEYS[1], KEYS[2])",
+        "keys": "signals:new signals:processing"
       },
-      "type": "n8n-nodes-base.redis",
+      "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
       "typeVersion": 1,
       "position": [
-        224,
+        208,
         0
       ],
-      "id": "4f24975b-da00-419e-8b00-700da137824c",
-      "name": "Redis-原子出队",
+      "id": "f425d419-dca6-4160-8a07-3ef7c4d57853",
+      "name": "Redis Enhanced - Eval",
       "credentials": {
         "redis": {
           "id": "JC5eeJb2KKlWVuzf",
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2f88ec47-2781-4926-9ac3-d5ce26b6b38d",
+              "leftValue": "={{ $json.result }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0b0816c2-8fa1-492f-a864-64829e36c139",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
+              "name": "status",
+              "value": 404,
+              "type": "number"
+            },
+            {
+              "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
+              "name": "message",
+              "value": "No new order",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        96
+      ],
+      "id": "281f92c1-a9c6-49db-9185-5c23e06b5aee",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "signal_data",
+        "key": "=signals:data:{{ $('Redis Enhanced - Eval').item.json.result }}",
+        "options": {}
+      },
+      "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "e176be43-b484-42be-9c29-8c2c4789eb9f",
+      "name": "Redis Enhanced",
+      "credentials": {
+        "redis": {
+          "id": "JC5eeJb2KKlWVuzf",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "512e5f0c-f336-4e43-b37b-60f9ab747290",
+              "name": "status",
+              "value": 200,
+              "type": "number"
+            },
+            {
+              "id": "b83518e4-38dd-4c4b-88a9-56006fe5913f",
+              "name": "data",
+              "value": "={id:{{ $('Redis Enhanced - Eval').item.json.result }},msg:{{ $json.signal_data }}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        -96
+      ],
+      "id": "0d3f3ccd-3402-4fd9-ac78-32d65e738692",
+      "name": "Edit Fields1"
     }
   ],
   "pinData": {
@@ -165,6 +298,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-13T01:05:27.171Z",
-  "versionId": "d6cdc905-0497-4d06-a515-586b53bd6356"
+  "updatedAt": "2025-11-14T03:39:03.047Z",
+  "versionId": "4e767e2b-f2bc-4c51-89ea-e8a85d334f0c"
 }
