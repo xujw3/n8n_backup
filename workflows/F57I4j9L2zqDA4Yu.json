@@ -23,7 +23,7 @@
         ],
         [
           {
-            "node": "Edit Fields2",
+            "node": "信号-redis错误",
             "type": "main",
             "index": 0
           }
@@ -34,43 +34,32 @@
       "main": [
         [
           {
-            "node": "Redis Enhanced",
+            "node": "Redis Enhanced - Get",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Edit Fields",
+            "node": "信号-无新信号",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Redis Enhanced": {
+    "Redis Enhanced - Get": {
       "main": [
         [
           {
-            "node": "Edit Fields1",
+            "node": "信号-成功",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Respond to Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
+    "信号-成功": {
       "main": [
         [
           {
@@ -81,7 +70,18 @@
         ]
       ]
     },
-    "Edit Fields2": {
+    "信号-无新信号": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "信号-redis错误": {
       "main": [
         [
           {
@@ -147,8 +147,8 @@
       "name": "Redis Enhanced - Eval",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       },
       "onError": "continueErrorOutput"
@@ -189,35 +189,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
-              "name": "status",
-              "value": 404,
-              "type": "number"
-            },
-            {
-              "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
-              "name": "message",
-              "value": "No new order",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        752,
-        96
-      ],
-      "id": "281f92c1-a9c6-49db-9185-5c23e06b5aee",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
         "operation": "get",
         "propertyName": "signal_data",
         "key": "=signals:data:{{ $('Redis Enhanced - Eval').item.json.result }}",
@@ -230,11 +201,11 @@
         -96
       ],
       "id": "e176be43-b484-42be-9c29-8c2c4789eb9f",
-      "name": "Redis Enhanced",
+      "name": "Redis Enhanced - Get",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       }
     },
@@ -265,7 +236,36 @@
         -96
       ],
       "id": "0d3f3ccd-3402-4fd9-ac78-32d65e738692",
-      "name": "Edit Fields1"
+      "name": "信号-成功"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
+              "name": "status",
+              "value": 404,
+              "type": "number"
+            },
+            {
+              "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
+              "name": "message",
+              "value": "No new order",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        96
+      ],
+      "id": "281f92c1-a9c6-49db-9185-5c23e06b5aee",
+      "name": "信号-无新信号"
     },
     {
       "parameters": {
@@ -294,7 +294,7 @@
         240
       ],
       "id": "69c89249-0d96-4dd5-937b-0c333e20911e",
-      "name": "Edit Fields2"
+      "name": "信号-redis错误"
     }
   ],
   "pinData": {
@@ -345,6 +345,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T05:32:09.839Z",
-  "versionId": "e55c8726-8ae6-4733-a031-f9a19ff1fdbc"
+  "updatedAt": "2025-11-14T06:37:17.233Z",
+  "versionId": "d5da8198-c2e7-4fe4-9912-b27a375cd183"
 }
