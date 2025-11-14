@@ -149,8 +149,8 @@
       "name": "Redis Enhanced - Set",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       }
     },
@@ -170,8 +170,8 @@
       "name": "Redis Enhanced",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       }
     }
@@ -224,6 +224,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T03:43:23.522Z",
-  "versionId": "451ec363-7a7d-4cda-93e1-ec22a6a215b6"
+  "updatedAt": "2025-11-14T06:32:04.296Z",
+  "versionId": "9f3d1b2b-9523-420d-9365-3be36b8efdba"
 }
