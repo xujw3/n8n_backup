@@ -92,8 +92,8 @@
       "name": "Redis Enhanced - Eval",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       }
     },
@@ -112,8 +112,8 @@
       "name": "Redis Enhanced - Delete",
       "credentials": {
         "redis": {
-          "id": "JC5eeJb2KKlWVuzf",
-          "name": "Redis account"
+          "id": "pcRDwnsuXmBH1pUl",
+          "name": "本地redis"
         }
       }
     }
@@ -134,6 +134,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T03:47:12.364Z",
-  "versionId": "2314e036-e024-464d-96b6-7e2472f5112c"
+  "updatedAt": "2025-11-14T06:37:34.661Z",
+  "versionId": "46504ae5-6063-41c6-8ed1-7dbe4a668c40"
 }
