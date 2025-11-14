@@ -20,6 +20,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -64,6 +71,17 @@
       ]
     },
     "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
       "main": [
         [
           {
@@ -132,7 +150,8 @@
           "id": "JC5eeJb2KKlWVuzf",
           "name": "Redis account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -163,7 +182,7 @@
       "typeVersion": 2.2,
       "position": [
         416,
-        0
+        -16
       ],
       "id": "0b0816c2-8fa1-492f-a864-64829e36c139",
       "name": "If"
@@ -247,6 +266,35 @@
       ],
       "id": "0d3f3ccd-3402-4fd9-ac78-32d65e738692",
       "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
+              "name": "status",
+              "value": 500,
+              "type": "number"
+            },
+            {
+              "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
+              "name": "message",
+              "value": "redis error!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        240
+      ],
+      "id": "69c89249-0d96-4dd5-937b-0c333e20911e",
+      "name": "Edit Fields2"
     }
   ],
   "pinData": {
@@ -297,6 +345,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T04:17:48.176Z",
-  "versionId": "80e10ea8-ac44-4d33-b570-f4767050bc15"
+  "updatedAt": "2025-11-14T05:32:09.839Z",
+  "versionId": "e55c8726-8ae6-4733-a031-f9a19ff1fdbc"
 }
