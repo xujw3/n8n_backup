@@ -102,7 +102,6 @@
     },
     {
       "parameters": {
-        "respondWith": "allIncomingItems",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
@@ -298,6 +297,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T03:39:03.047Z",
-  "versionId": "4e767e2b-f2bc-4c51-89ea-e8a85d334f0c"
+  "updatedAt": "2025-11-14T04:17:48.176Z",
+  "versionId": "80e10ea8-ac44-4d33-b570-f4767050bc15"
 }
