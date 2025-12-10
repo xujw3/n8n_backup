@@ -1,5 +1,112 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-10T13:33:16.957Z",
+    "createdAt": "2025-12-10T13:33:16.957Z",
+    "versionId": "0e765f96-e1a8-469f-a539-4fdbf39492cb",
+    "workflowId": "TLs6RuRQ8ta0dp5J",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6",
+          "options": {
+            "responseData": "success"
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "60fbfc9d-1a42-4ede-a65a-dccddae5320e",
+        "name": "Webhook",
+        "webhookId": "ba2c7a2c-b9bf-48f4-a57b-ef067e8ffef6"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
+                "name": "body.code",
+                "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
+                "type": "string"
+              },
+              {
+                "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
+                "name": "body.quantity",
+                "value": "={{ $json.body.quantity }}",
+                "type": "number"
+              },
+              {
+                "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
+                "name": "body.type",
+                "value": "={{ $json.body.type }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          208,
+          0
+        ],
+        "id": "8169fe36-6160-45ea-bb74-e701e9adf990",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "http://10.1.1.9:5000/api/trade",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.body }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          416,
+          0
+        ],
+        "id": "ceeaf009-7c7e-4188-bce9-f91d81864c0d",
+        "name": "HTTP Request"
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "0e765f96-e1a8-469f-a539-4fdbf39492cb",
   "connections": {
     "Webhook": {
       "main": [
