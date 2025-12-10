@@ -1,5 +1,305 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-10T13:33:16.957Z",
+    "createdAt": "2025-12-10T13:33:16.957Z",
+    "versionId": "d5da8198-c2e7-4fe4-9912-b27a375cd183",
+    "workflowId": "F57I4j9L2zqDA4Yu",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "api/get_order",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "d1a847d1-a5e9-49be-aa1e-528a492f2aa9",
+        "name": "Webhook",
+        "webhookId": "70693cff-e089-43c8-bf8e-d834a1ade9d8"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          1152,
+          32
+        ],
+        "id": "4c490b4c-7290-44d8-bff7-776ecc8678da",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "operation": "eval",
+          "script": "return redis.call('RPOPLPUSH', KEYS[1], KEYS[2])",
+          "keys": "signals:new signals:processing"
+        },
+        "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
+        "typeVersion": 1,
+        "position": [
+          208,
+          0
+        ],
+        "id": "f425d419-dca6-4160-8a07-3ef7c4d57853",
+        "name": "Redis Enhanced - Eval",
+        "credentials": {
+          "redis": {
+            "id": "pcRDwnsuXmBH1pUl",
+            "name": "本地redis"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "2f88ec47-2781-4926-9ac3-d5ce26b6b38d",
+                "leftValue": "={{ $json.result }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          416,
+          -16
+        ],
+        "id": "0b0816c2-8fa1-492f-a864-64829e36c139",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "operation": "get",
+          "propertyName": "signal_data",
+          "key": "=signals:data:{{ $('Redis Enhanced - Eval').item.json.result }}",
+          "options": {}
+        },
+        "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
+        "typeVersion": 1,
+        "position": [
+          624,
+          -96
+        ],
+        "id": "e176be43-b484-42be-9c29-8c2c4789eb9f",
+        "name": "Redis Enhanced - Get",
+        "credentials": {
+          "redis": {
+            "id": "pcRDwnsuXmBH1pUl",
+            "name": "本地redis"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "512e5f0c-f336-4e43-b37b-60f9ab747290",
+                "name": "status",
+                "value": 200,
+                "type": "number"
+              },
+              {
+                "id": "b83518e4-38dd-4c4b-88a9-56006fe5913f",
+                "name": "data",
+                "value": "={id:{{ $('Redis Enhanced - Eval').item.json.result }},msg:{{ $json.signal_data }}}",
+                "type": "object"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          848,
+          -96
+        ],
+        "id": "0d3f3ccd-3402-4fd9-ac78-32d65e738692",
+        "name": "信号-成功"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
+                "name": "status",
+                "value": 404,
+                "type": "number"
+              },
+              {
+                "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
+                "name": "message",
+                "value": "No new order",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          752,
+          96
+        ],
+        "id": "281f92c1-a9c6-49db-9185-5c23e06b5aee",
+        "name": "信号-无新信号"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "e48871cf-3f16-423d-89f0-dbfeff92286d",
+                "name": "status",
+                "value": 500,
+                "type": "number"
+              },
+              {
+                "id": "96ccfd8e-d168-4b00-9264-4029291ed55a",
+                "name": "message",
+                "value": "redis error!",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          752,
+          240
+        ],
+        "id": "69c89249-0d96-4dd5-937b-0c333e20911e",
+        "name": "信号-redis错误"
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Redis Enhanced - Eval",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Enhanced - Eval": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "信号-redis错误",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Redis Enhanced - Get",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "信号-无新信号",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Enhanced - Get": {
+        "main": [
+          [
+            {
+              "node": "信号-成功",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "信号-成功": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "信号-无新信号": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "信号-redis错误": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "d5da8198-c2e7-4fe4-9912-b27a375cd183",
   "connections": {
     "Webhook": {
       "main": [
