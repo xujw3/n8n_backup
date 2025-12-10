@@ -1,5 +1,184 @@
 {
   "active": true,
+  "activeVersion": {
+    "updatedAt": "2025-12-10T13:33:16.957Z",
+    "createdAt": "2025-12-10T13:33:16.957Z",
+    "versionId": "9f3d1b2b-9523-420d-9365-3be36b8efdba",
+    "workflowId": "L77q7rVf4VuYgzkn",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "/api/post_signal",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "53974057-4c5a-4e44-8b78-9c5f518b384c",
+        "name": "Webhook",
+        "webhookId": "b56e03cd-4b5c-4873-8e86-2f4583b9add3"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "2154f4a4-9146-4cdd-be0f-20cd7133d2ea",
+                "name": "body.code",
+                "value": "={{ $json.body.code.replace('.XSHG', '.SH').replace('.XSHE', '.SZ') }}",
+                "type": "string"
+              },
+              {
+                "id": "ca9bc44d-eae6-45f4-a077-03be80e5cb0c",
+                "name": "body.quantity",
+                "value": "={{ $json.body.quantity }}",
+                "type": "number"
+              },
+              {
+                "id": "ea289b3d-1f83-47a2-b504-943d99550bbe",
+                "name": "body.type",
+                "value": "={{ $json.body.type }}",
+                "type": "string"
+              },
+              {
+                "id": "9aabf9d1-0f59-49ac-927d-cbfd61197157",
+                "name": "body.signal_id",
+                "value": "={{ $json.body.formatted_number }}",
+                "type": "string"
+              },
+              {
+                "id": "8aa18f40-47a9-4fa5-af6b-b15ea18e047e",
+                "name": "body.status",
+                "value": "new",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          192,
+          0
+        ],
+        "id": "29b53327-e7b8-49d4-8592-d309285ade76",
+        "name": "格式化数据"
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\"status\": \"ok\", \"id_received\": \"{{ $json.body.signal_id }}\"} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          832,
+          0
+        ],
+        "id": "48a054f0-f9da-40e6-834a-501edff988f5",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "operation": "set",
+          "key": "=signals:data:{{ $json.body.signal_id }}",
+          "value": "={{ JSON.stringify($json.body) }}"
+        },
+        "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
+        "typeVersion": 1,
+        "position": [
+          400,
+          0
+        ],
+        "id": "8f345aa1-956d-420b-b612-827f26778023",
+        "name": "Redis Enhanced - Set",
+        "credentials": {
+          "redis": {
+            "id": "pcRDwnsuXmBH1pUl",
+            "name": "本地redis"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "push",
+          "list": "signals:new",
+          "messageData": "={{ $json.body.signal_id }}"
+        },
+        "type": "@vicenterusso/n8n-nodes-redis-enhanced.redisEnhanced",
+        "typeVersion": 1,
+        "position": [
+          608,
+          0
+        ],
+        "id": "f5484eef-47f9-408a-9033-0426dbf6138b",
+        "name": "Redis Enhanced",
+        "credentials": {
+          "redis": {
+            "id": "pcRDwnsuXmBH1pUl",
+            "name": "本地redis"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "格式化数据",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "格式化数据": {
+        "main": [
+          [
+            {
+              "node": "Redis Enhanced - Set",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Enhanced - Set": {
+        "main": [
+          [
+            {
+              "node": "Redis Enhanced",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Enhanced": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
+  "activeVersionId": "9f3d1b2b-9523-420d-9365-3be36b8efdba",
   "connections": {
     "Webhook": {
       "main": [
