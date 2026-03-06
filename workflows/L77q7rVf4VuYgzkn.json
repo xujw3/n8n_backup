@@ -356,39 +356,7 @@
       }
     }
   ],
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.xujw.top",
-            "user-agent": "python-requests/2.21.0",
-            "content-length": "165",
-            "accept": "*/*",
-            "accept-encoding": "gzip, deflate",
-            "content-type": "application/json",
-            "x-forwarded-for": "39.105.225.127, 127.0.0.1",
-            "x-forwarded-host": "n8n.xujw.top",
-            "x-forwarded-proto": "http",
-            "x-real-ip": "39.105.225.127"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "username": "king",
-            "password": "xujinwe",
-            "strategy_id": null,
-            "code": "002591.XSHE",
-            "quantity": 10000,
-            "formatted_number": "5547733647",
-            "type": "order_value"
-          },
-          "webhookUrl": "https://n8n.xujw.top/webhook-test/b56e03cd-4b5c-4873-8e86-2f4583b9add3",
-          "executionMode": "test"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "settings": {
     "executionOrder": "v1"
   },
@@ -404,6 +372,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-14T06:32:04.296Z",
+  "updatedAt": "2026-03-06T13:42:23.215Z",
   "versionId": "9f3d1b2b-9523-420d-9365-3be36b8efdba"
 }
