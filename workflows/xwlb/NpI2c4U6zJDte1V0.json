@@ -258,7 +258,8 @@
   ],
   "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "shared": [
     {
@@ -283,6 +284,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2026-02-10T00:34:18.740Z",
-  "versionId": "6ccc32c0-657b-428b-9394-7d3e1b6f119f"
+  "updatedAt": "2026-04-28T15:30:36.100Z",
+  "versionId": "87e37d07-ccee-4ecb-b242-d781b4a2e916"
 }
