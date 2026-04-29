@@ -32,6 +32,11 @@
             "node": "推送到思源笔记",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -254,6 +259,33 @@
       ],
       "id": "b0b4e927-2354-43ba-aef5-0f98e8407855",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://open.feishu.cn/open-apis/bot/v2/hook/f3d46e13-c187-4ee6-b001-cf5d0706cd07",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"msg_type\": \"interactive\",\n  \"card\": {\n    \"config\": {\n      \"wide_screen_mode\": true\n    },\n    \"header\": {\n      \"title\": {\n        \"tag\": \"plain_text\",\n        \"content\": \"📊 今日市场报告\"\n      },\n      \"template\": \"blue\"\n    },\n    \"elements\": [\n      {\n        \"tag\": \"div\",\n        \"text\": {\n          \"tag\": \"lark_md\",\n          \"content\": \"**上证指数** 4081.53  (+0.64%)\\n**深证成指** 14949.67  (+0.61%)\"\n        }\n      },\n      {\n        \"tag\": \"hr\"\n      },\n      {\n        \"tag\": \"div\",\n        \"text\": {\n          \"tag\": \"lark_md\",\n          \"content\": \"{{ $json.output }}\"\n        }\n      }\n    ]\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        656,
+        352
+      ],
+      "id": "b95ad24a-51ba-420a-873c-2d37f0bd1d51",
+      "name": "HTTP Request1"
     }
   ],
   "pinData": {},
@@ -284,6 +316,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2026-04-28T15:30:36.100Z",
-  "versionId": "87e37d07-ccee-4ecb-b242-d781b4a2e916"
+  "updatedAt": "2026-04-29T14:55:29.019Z",
+  "versionId": "416b1d5e-a367-45fb-9008-a67760df2f8d"
 }
