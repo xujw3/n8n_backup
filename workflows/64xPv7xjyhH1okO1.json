@@ -17,7 +17,7 @@
   },
   "createdAt": "2026-05-08T11:19:42.788Z",
   "id": "64xPv7xjyhH1okO1",
-  "isArchived": false,
+  "isArchived": true,
   "meta": null,
   "name": "My workflow 4",
   "nodes": [
@@ -183,6 +183,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-08T11:22:45.713Z",
-  "versionId": "e0e49a33-764e-4913-aafc-8ea7e0a50bf4"
+  "updatedAt": "2026-05-13T13:32:47.515Z",
+  "versionId": "58ce9f82-9be3-43fb-8ce9-2dcc1eb8dda3"
 }
