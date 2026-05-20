@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-20T05:50:30.731Z",
-    "createdAt": "2026-05-20T05:50:22.755Z",
-    "versionId": "4bdcf30c-c892-4b6d-aa58-16f143e99eb0",
+    "updatedAt": "2026-05-20T06:01:35.219Z",
+    "createdAt": "2026-05-20T06:01:29.718Z",
+    "versionId": "18d4d6d2-c7bd-46d9-bb85-1be9675da78e",
     "workflowId": "ihvafU3pMPOUD4Ta",
     "nodes": [
       {
@@ -129,9 +129,9 @@
         "parameters": {
           "model": {
             "__rl": true,
-            "value": "gpt-5.4-mini",
+            "value": "Gemini 2.5 Flash",
             "mode": "list",
-            "cachedResultName": "gpt-5.4-mini"
+            "cachedResultName": "Gemini 2.5 Flash"
           },
           "builtInTools": {},
           "options": {}
@@ -163,8 +163,8 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.2,
         "position": [
-          256,
-          192
+          432,
+          64
         ],
         "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
         "name": "HTTP Request",
@@ -280,11 +280,11 @@
       }
     },
     "authors": "King Moon",
-    "name": "Version 4bdcf30c",
+    "name": "Version 18d4d6d2",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "4bdcf30c-c892-4b6d-aa58-16f143e99eb0",
+  "activeVersionId": "18d4d6d2-c7bd-46d9-bb85-1be9675da78e",
   "connections": {
     "定时触发": {
       "main": [
@@ -545,8 +545,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        384,
-        80
+        432,
+        64
       ],
       "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
       "name": "HTTP Request",
@@ -587,6 +587,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-20T05:58:38.079Z",
-  "versionId": "84cbe06d-50ea-487a-953c-52e00a6a2307"
+  "updatedAt": "2026-05-20T06:01:29.716Z",
+  "versionId": "18d4d6d2-c7bd-46d9-bb85-1be9675da78e"
 }
