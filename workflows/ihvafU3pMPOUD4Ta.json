@@ -73,12 +73,23 @@
       "main": [
         [
           {
-            "node": "发送钉钉",
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           },
           {
-            "node": "HTTP Request",
+            "node": "发送钉钉",
             "type": "main",
             "index": 0
           }
@@ -116,7 +127,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// 1. 在这里填入你需要的 RSSHub 订阅源 (加上 ?format=json)\nreturn [\n  { json: { url: \"https://rss.xujwx.xyz/cls/telegraph?format=json\", name: \"财联社\" } },\n  { json: { url: \"https://rss.xujwx.xyz/wallstreetcn/live/global?format=json\", name: \"华尔街见闻\" } }\n];"
+        "jsCode": "// ==========================================\n// 1. 在这里维护你的订阅源（干净清爽，只需填 name 和 url）\n// ==========================================\nconst feeds = [\n  { \n    name: \"财联社\", \n    url: \"https://rss.xujwx.xyz/cls/telegraph?format=json\" \n  },\n  { \n    name: \"华尔街见闻\", \n    url: \"https://rss.xujwx.xyz/wallstreetcn/live/global?format=json\" \n  },\n  { \n    name: \"金十数据\", \n    url: \"https://rss.xujwx.xyz/jin10/:important?format=json\" \n  },\n];\n\n// ==========================================\n// 2. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
       },
       "id": "c76b49f9-054e-4058-bcc0-06e079c175b2",
       "name": "配置RSS源",
@@ -143,7 +154,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const hoursAgo = 12;\nconst cutoffTime = new Date(new Date().getTime() - hoursAgo * 60 * 60 * 1000);\nconst allFeeds = $input.all();\nlet allItems = [];\n\nfor (const feed of allFeeds) {\n  let sourceData = feed.json.data || feed.json.items || feed.json;\n  if (typeof sourceData === 'string') {\n    try { sourceData = JSON.parse(sourceData); } \n    catch (e) { continue; }\n  }\n  \n  const items = Array.isArray(sourceData) ? sourceData : (sourceData.items || []);\n  if (!Array.isArray(items)) continue;\n\n  for (const item of items) {\n    const timeString = item.date_published || item.pubDate || item.created_at || item.time;\n    const itemTime = new Date(timeString);\n    \n    if (!isNaN(itemTime.getTime()) && itemTime > cutoffTime) {\n      // 提取内容并剔除 HTML 标签，防止 AI token 爆炸\n      let rawContent = item.summary || item.content_html || item.description || \"\";\n      let cleanContent = rawContent.replace(/<[^>]+>/g, '').substring(0, 300);\n      \n      allItems.push({\n        title: item.title || \"无标题\",\n        content: cleanContent,\n        url: item.url || item.link || \"\",\n        time: itemTime.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })\n      });\n    }\n  }\n}\n\n// 简单去重\nconst uniqueMap = new Map();\nfor (const item of allItems) {\n  if (item.title && !uniqueMap.has(item.title)) {\n    uniqueMap.set(item.title, item);\n  }\n}\nconst uniqueItems = Array.from(uniqueMap.values());\n\n// 打包成一个整体输出\nreturn { \n  json: { \n    news_list: uniqueItems, \n    total_count: uniqueItems.length \n  } \n};"
+        "jsCode": "const hoursAgo = 1;\nconst cutoffTime = new Date(new Date().getTime() - hoursAgo * 60 * 60 * 1000);\nconst allFeeds = $input.all();\nlet allItems = [];\n\nfor (const feed of allFeeds) {\n  let sourceData = feed.json.data || feed.json.items || feed.json;\n  if (typeof sourceData === 'string') {\n    try { sourceData = JSON.parse(sourceData); } \n    catch (e) { continue; }\n  }\n  \n  const items = Array.isArray(sourceData) ? sourceData : (sourceData.items || []);\n  if (!Array.isArray(items)) continue;\n\n  for (const item of items) {\n    const timeString = item.date_published || item.pubDate || item.created_at || item.time;\n    const itemTime = new Date(timeString);\n    \n    if (!isNaN(itemTime.getTime()) && itemTime > cutoffTime) {\n      // 提取内容并剔除 HTML 标签，防止 AI token 爆炸\n      let rawContent = item.summary || item.content_html || item.description || \"\";\n      let cleanContent = rawContent.replace(/<[^>]+>/g, '').substring(0, 300);\n      \n      allItems.push({\n        title: item.title || \"无标题\",\n        content: cleanContent,\n        url: item.url || item.link || \"\",\n        time: itemTime.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })\n      });\n    }\n  }\n}\n\n// 简单去重\nconst uniqueMap = new Map();\nfor (const item of allItems) {\n  if (item.title && !uniqueMap.has(item.title)) {\n    uniqueMap.set(item.title, item);\n  }\n}\nconst uniqueItems = Array.from(uniqueMap.values());\n\n// 打包成一个整体输出\nreturn { \n  json: { \n    news_list: uniqueItems, \n    total_count: uniqueItems.length \n  } \n};"
       },
       "id": "faac47eb-cc3a-4e44-9c90-676150e31f68",
       "name": "清洗与去重",
@@ -178,10 +189,10 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://oapi.dingtalk.com/robot/send?access_token=YOUR_DINGTALK_TOKEN",
+        "url": "={{ $json.webhook_url }}",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"msgtype\": \"markdown\",\n  \"markdown\": {\n    \"title\": \"财经日报\",\n    \"text\": \"{{ $json.output }}\"\n  }\n}",
+        "jsonBody": "={{\n  {\n    \"msgtype\": \"markdown\",\n    \"markdown\": {\n      \"title\": \"财经快报\",\n      \"text\": $json.output\n    }\n  }\n}}",
         "options": {}
       },
       "id": "33ad564f-174b-457a-9ff4-d9ee5cdc6b4a",
@@ -189,17 +200,16 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        112,
-        -96
-      ],
-      "disabled": true
+        320,
+        -112
+      ]
     },
     {
       "parameters": {
         "promptType": "define",
         "text": "=新闻列表：\\n{{ $json.news_list.map(item => `标题：${item.title}\\n时间：${item.time}\\n内容：${item.content}`).join('\\n\\n') }}",
         "options": {
-          "systemMessage": "# 角色\n你是一位资深财经新闻分析师，能快速识别市场信号，评估其对**A股市场**和**海外市场**的影响。\n\n# 任务\n请对我随后提供的所有财经新闻，逐条拆分并判断市场归属、影响方向、影响程度、波及板块及传导逻辑。\n\n# 输出格式\n**严禁使用任何表格。** 整个回复分为两个完全独立的部分，**先完整呈现A股所有内容，再完整呈现海外所有内容**，两者绝不交叉。在所有单条新闻处理完后，最后对所有新闻进行总结。\n\n---\n\n## 🇨🇳 A股市场\n\n### 🟢 利好\n影响程度[强/中/弱]：新闻一句话摘要，波及[具体板块/指数]，逻辑：[一句话说明]\n\n影响程度[强/中/弱]：新闻一句话摘要，波及[具体板块/指数]，逻辑：[一句话说明]\n\n（若该类无新闻，写“无”）\n\n### 🔴 利空\n格式同上\n\n### 🟡 中性\n格式同上\n\n---\n\n## 🌍 海外市场\n\n### 🟢 利好\n格式同上\n\n### 🔴 利空\n格式同上\n\n### 🟡 中性\n格式同上\n\n---\n\n# 示例\n\n## 🇨🇳 A股市场\n\n### 🟢 利好\n强：央行宣布降准0.5个百分点释放万亿资金，波及银行、券商、地产、上证50，逻辑：宽货币信号强化流动性宽松预期，提振金融及周期板块估值。\n中：北向资金单日净流入超百亿，波及沪深300、消费白马，逻辑：外资回流反映对中国资产信心修复。\n\n### 🔴 利空\n中：某头部房企债务展期方案被否，波及地产、建材、保险，逻辑：信用风险扰动压制产业链相关板块风险偏好。\n\n### 🟡 中性\n无\n\n---\n\n## 🌍 海外市场\n\n### 🔴 利空\n强：美国CPI数据超预期回升，波及纳指、标普500、美债、黄金，逻辑：通胀顽固强化加息预期，压制成长股及贵金属估值。\n\n### 🟢 利好\n弱：欧元区PMI初值略好于预期，波及欧股、欧元，逻辑：衰退担忧边际缓解支撑市场情绪。\n\n### 🟡 中性\n无\n\n---\n\n# 特别要求\n- 必须覆盖我给出的每一条新闻，不得遗漏。\n- 若某条新闻难以指向具体板块，波及处写“整体市场情绪/风险偏好”。\n- 每条新闻单独一行，开头标注影响程度。\n- 某类若无新闻直接写“无”，不要编造。\n- 整个回复不得出现任何表格、分隔符。\n"
+          "systemMessage": "# Role\n\n你是一名顶级财经快讯编辑 + 二级市场分析师。\n\n你的任务是：\n对输入的财经新闻进行结构化分析，并生成适合发送到钉钉群的 Markdown 快报。\n\n要求：\n\n* 信息密度高\n* 语言专业\n* 不要废话\n* 不要免责声明\n* 不要输出分析过程\n* 重点突出“对市场的影响”\n* 使用适合交易员阅读的表达\n* 适合手机端快速浏览\n\n---\n\n# 输出格式要求（严格遵守）\n\n# 📰 财经快报 | {日期时间}\n\n## 🌍 宏观\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 核心内容：\n\n  * {核心点1}\n  * {核心点2}\n* 市场影响：\n\n  * 利好：{受益方向}\n  * 利空：{承压方向}\n\n---\n\n## 🇨🇳 A股\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 涉及板块：`半导体` `AI` `新能源`\n* 核心内容：\n\n  * {核心点}\n* 市场影响：\n\n  * {资金可能流向}\n  * {可能受影响公司类型}\n\n---\n\n## 🌎 海外市场\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 核心内容：\n\n  * {核心内容}\n* 市场影响：\n\n  * {对美股/港股/大宗商品影响}\n\n---\n\n# 📊 市场情绪总览\n\n* 宏观情绪：🟢 / 🔴 / 🟡\n* A股情绪：🟢 / 🔴 / 🟡\n* 海外情绪：🟢 / 🔴 / 🟡\n\n---\n\n# 🧠 AI总结\n\n{用100~200字总结今日财经新闻主线：\n包括：\n\n* 当前市场风险偏好\n* 资金关注方向\n* 政策导向\n* 全球市场变化\n* 哪些板块值得重点关注\n* 哪些方向需要警惕}\n\n---\n\n# 分析规则\n\n## 情绪判断规则\n\n### 🟢 利好\n\n包括但不限于：\n\n* 降息\n* 放水\n* 财政刺激\n* AI/半导体政策支持\n* 业绩超预期\n* 外资流入\n* 行业景气提升\n\n### 🔴 利空\n\n包括但不限于：\n\n* 加息\n* 制裁\n* 地缘冲突升级\n* 业绩暴雷\n* 监管收紧\n* 大宗商品暴涨\n* 美债收益率大涨\n\n### 🟡 中性\n\n* 无明显方向\n* 市场已提前消化\n* 短期影响有限\n\n---\n\n# 内容优化要求\n\n1. 自动提炼：\n\n* 哪些板块受益\n* 哪些资产承压\n* 是否影响风险偏好\n\n2. 如果新闻很多：\n\n* 只保留最重要的 TOP 新闻\n* 相似新闻合并\n\n3. 输出必须简洁：\n\n* 避免长段落\n* 手机端易读\n\n4. 优先分析：\n\n* 中国政策\n* 美联储\n* AI\n* 半导体\n* 新能源\n* 地产\n* 黄金\n* 原油\n* 美债\n* 汇率\n\n5. 若新闻涉及上市公司：\n   输出：\n\n* 利好哪些类型公司\n* 利空哪些类型公司\n\n6. 如果新闻明显属于：\n\n* 黑天鹅\n* 系统性风险\n* 行业级机会\n  请额外加：\n\n> ⚠️ 重点关注\n\n\n\n\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -243,17 +253,31 @@
         "url": "https://notify.xujwx.xyz/notify",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"title\": \"\",\n  \"body\": \"{{ $json.output }}\",\n  \"urls\": [\n    \"dingtalk://SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191@c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe\"\n  ]\n}",
+        "jsonBody": "={\n  \"title\": \"\",\n  \"body\": {{ JSON.stringify($json.output) }},\n  \"urls\": [\n    \"dingtalk://SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191@c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe\"\n  ]\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        176,
-        80
+        368,
+        96
       ],
       "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
-      "name": "HTTP Request"
+      "name": "HTTP Request",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// 引入 Node.js 原生加密模块（n8n 默认允许引用）\nconst crypto = require('crypto');\n\n// ⚠️ 在这里填入你的钉钉 Token 和 SEC 密钥\nconst accessToken = 'c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe'; \nconst secret = 'SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191';\n\n// 遍历流经此节点的所有数据项\nfor (const item of $input.all()) {\n  // 1. 获取当前毫秒时间戳\n  const timestamp = new Date().getTime();\n\n  // 2. 拼接待签名字符串\n  const stringToSign = timestamp + '\\n' + secret;\n\n  // 3. 计算 HMAC-SHA256 加密并转为 Base64\n  const hash = crypto.createHmac('sha256', secret).update(stringToSign).digest('base64');\n\n  // 4. 对生成的 Base64 字符串进行 URL 编码\n  const sign = encodeURIComponent(hash);\n\n  // 5. 将完整的 URL 附加到当前数据流中，命名为 webhook_url\n  item.json.webhook_url = `https://oapi.dingtalk.com/robot/send?access_token=${accessToken}&timestamp=${timestamp}&sign=${sign}`;\n}\n\n// 返回处理后的数据\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        112,
+        32
+      ],
+      "id": "9d87e08f-d74d-474f-a921-f13d3d783b15",
+      "name": "Code in JavaScript"
     }
   ],
   "pinData": {},
@@ -273,6 +297,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-20T02:59:22.029Z",
-  "versionId": "53594fad-c270-42bd-86a1-01514f3361e8"
+  "updatedAt": "2026-05-20T03:39:23.970Z",
+  "versionId": "bd1857e7-a23a-4d2f-9b58-2a5249c3dcb8"
 }
