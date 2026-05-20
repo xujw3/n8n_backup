@@ -1,7 +1,290 @@
 {
-  "active": false,
-  "activeVersion": null,
-  "activeVersionId": null,
+  "active": true,
+  "activeVersion": {
+    "updatedAt": "2026-05-20T05:50:30.731Z",
+    "createdAt": "2026-05-20T05:50:22.755Z",
+    "versionId": "4bdcf30c-c892-4b6d-aa58-16f143e99eb0",
+    "workflowId": "ihvafU3pMPOUD4Ta",
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "hours"
+              }
+            ]
+          }
+        },
+        "id": "ea90d0d0-4178-43e1-ac36-2b01ed0835a4",
+        "name": "定时触发",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -1344,
+          80
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"https://rss.xujwx.xyz\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
+        },
+        "id": "c76b49f9-054e-4058-bcc0-06e079c175b2",
+        "name": "配置RSS源",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1120,
+          80
+        ],
+        "retryOnFail": true,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.url }}",
+          "options": {}
+        },
+        "id": "1bccf292-92c0-48a7-b16a-6bbb4c0700df",
+        "name": "抓取数据",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          -896,
+          80
+        ],
+        "retryOnFail": true,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "const hoursAgo = 1;\nconst cutoffTime = new Date(new Date().getTime() - hoursAgo * 60 * 60 * 1000);\nconst allFeeds = $input.all();\nlet allItems = [];\n\nfor (const feed of allFeeds) {\n  let sourceData = feed.json.data || feed.json.items || feed.json;\n  if (typeof sourceData === 'string') {\n    try { sourceData = JSON.parse(sourceData); } \n    catch (e) { continue; }\n  }\n  \n  const items = Array.isArray(sourceData) ? sourceData : (sourceData.items || []);\n  if (!Array.isArray(items)) continue;\n\n  for (const item of items) {\n    const timeString = item.date_published || item.pubDate || item.created_at || item.time;\n    const itemTime = new Date(timeString);\n    \n    if (!isNaN(itemTime.getTime()) && itemTime > cutoffTime) {\n      // 提取内容并剔除 HTML 标签，防止 AI token 爆炸\n      let rawContent = item.summary || item.content_html || item.description || \"\";\n      let cleanContent = rawContent.replace(/<[^>]+>/g, '').substring(0, 300);\n      \n      allItems.push({\n        title: item.title || \"无标题\",\n        content: cleanContent,\n        url: item.url || item.link || \"\",\n        time: itemTime.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })\n      });\n    }\n  }\n}\n\n// 简单去重\nconst uniqueMap = new Map();\nfor (const item of allItems) {\n  if (item.title && !uniqueMap.has(item.title)) {\n    uniqueMap.set(item.title, item);\n  }\n}\nconst uniqueItems = Array.from(uniqueMap.values());\n\n// 打包成一个整体输出\nreturn { \n  json: { \n    news_list: uniqueItems, \n    total_count: uniqueItems.length \n  } \n};"
+        },
+        "id": "faac47eb-cc3a-4e44-9c90-676150e31f68",
+        "name": "清洗与去重",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -688,
+          80
+        ],
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "number": [
+              {
+                "value1": "={{ $json.total_count }}",
+                "operation": "larger"
+              }
+            ]
+          }
+        },
+        "id": "3dbab703-1883-488b-8a10-6d0b3cbe12af",
+        "name": "检查是否有新闻",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          -464,
+          80
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $json.webhook_url }}",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{\n  {\n    \"msgtype\": \"markdown\",\n    \"markdown\": {\n      \"title\": \"财经快报\",\n      \"text\": $json.output\n    }\n  }\n}}",
+          "options": {}
+        },
+        "id": "33ad564f-174b-457a-9ff4-d9ee5cdc6b4a",
+        "name": "发送钉钉",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.1,
+        "position": [
+          416,
+          -96
+        ]
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=以下是过去一小时的资讯列表：\\n{{ $json.news_list.map(item => `标题：${item.title}\\n时间：${item.time}\\n内容：${item.content}`).join('\\n\\n') }}",
+          "options": {
+            "systemMessage": "# Role\n你是一个专业的金融量化资讯助手。你的任务是从一堆杂乱的财经快讯中，提取出最有交易价值的信息，并生成可以直接发到钉钉的 Markdown 简报。\n\n# Rules\n1. **去重与过滤**：忽略没有实质性内容的口水话、早晚报问候语或重复推送的旧消息。\n2. **提炼核心**：每条资讯只保留一句话的核心逻辑，不要长篇大论。\n3. **高亮实体与情绪**：\n   - 只要文本中提到具体的**股票名称**、**概念板块**或**标的代码**，必须使用加粗（例如：**低空经济**、**贵州茅台**）。\n   - 明显带有方向性的消息，请在行首加上情绪标签：[🔴利好]、[🟢利空] 或 [⚪中性]。\n\n# Output Format\n请严格按照以下 Markdown 格式输出（如果没有相关分类的数据，直接隐藏该分类）：\n\n## 🕒 极速复盘与资讯提炼\n\n### 🌍 宏观与重要政策\n- [来源] [情绪] 一句话核心逻辑（如：美联储降息预期升温...）\n- ...\n\n### 🔥 A股题材与市场情绪\n- [来源] [情绪] 突发概念或游资关注热点（如：**固态电池**板块异动...）\n- ...\n\n### 💡 个股与套利动态\n- [来源] [情绪] 关于 **[具体股票/转债]** 的重要公告或异动。\n- ...\n\n---\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          -240,
+          -96
+        ],
+        "id": "4b56abe1-017e-473d-8c96-c6cb9cf038f2",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-5.4-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-5.4-mini"
+          },
+          "builtInTools": {},
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.3,
+        "position": [
+          -240,
+          80
+        ],
+        "id": "eb934594-1c78-46d1-ad36-320456eaf38d",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "6A3fPsfCaMOHVyUZ",
+            "name": "cpa"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://notify.xujwx.xyz/notify",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"title\": \"\",\n  \"body\": {{ JSON.stringify($json.output) }},\n  \"urls\": [\n    \"dingtalk://SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191@c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe\"\n  ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          256,
+          192
+        ],
+        "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
+        "name": "HTTP Request",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "// 引入 Node.js 原生加密模块（n8n 默认允许引用）\nconst crypto = require('crypto');\n\n// ⚠️ 在这里填入你的钉钉 Token 和 SEC 密钥\nconst accessToken = 'c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe'; \nconst secret = 'SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191';\n\n// 遍历流经此节点的所有数据项\nfor (const item of $input.all()) {\n  // 1. 获取当前毫秒时间戳\n  const timestamp = new Date().getTime();\n\n  // 2. 拼接待签名字符串\n  const stringToSign = timestamp + '\\n' + secret;\n\n  // 3. 计算 HMAC-SHA256 加密并转为 Base64\n  const hash = crypto.createHmac('sha256', secret).update(stringToSign).digest('base64');\n\n  // 4. 对生成的 Base64 字符串进行 URL 编码\n  const sign = encodeURIComponent(hash);\n\n  // 5. 将完整的 URL 附加到当前数据流中，命名为 webhook_url\n  item.json.webhook_url = `https://oapi.dingtalk.com/robot/send?access_token=${accessToken}&timestamp=${timestamp}&sign=${sign}`;\n}\n\n// 返回处理后的数据\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          112,
+          -96
+        ],
+        "id": "9d87e08f-d74d-474f-a921-f13d3d783b15",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "connections": {
+      "定时触发": {
+        "main": [
+          [
+            {
+              "node": "配置RSS源",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "配置RSS源": {
+        "main": [
+          [
+            {
+              "node": "抓取数据",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "抓取数据": {
+        "main": [
+          [
+            {
+              "node": "清洗与去重",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "清洗与去重": {
+        "main": [
+          [
+            {
+              "node": "检查是否有新闻",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "检查是否有新闻": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "发送钉钉",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "King Moon",
+    "name": "Version 4bdcf30c",
+    "description": "",
+    "autosaved": true
+  },
+  "activeVersionId": "4bdcf30c-c892-4b6d-aa58-16f143e99eb0",
   "connections": {
     "定时触发": {
       "main": [
@@ -103,15 +386,14 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "name": "My workflow 5",
+  "name": "财经快报",
   "nodes": [
     {
       "parameters": {
         "rule": {
           "interval": [
             {
-              "field": "hours",
-              "hoursInterval": 4
+              "field": "hours"
             }
           ]
         }
@@ -127,7 +409,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ==========================================\n// 1. 在这里维护你的订阅源（干净清爽，只需填 name 和 url）\n// ==========================================\nconst feeds = [\n  { \n    name: \"财联社\", \n    url: \"https://rss.xujwx.xyz/cls/telegraph?format=json\" \n  },\n  { \n    name: \"华尔街见闻\", \n    url: \"https://rss.xujwx.xyz/wallstreetcn/live/global?format=json\" \n  },\n  { \n    name: \"金十数据\", \n    url: \"https://rss.xujwx.xyz/jin10/:important?format=json\" \n  },\n];\n\n// ==========================================\n// 2. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
+        "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"https://rss.xujwx.xyz\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
       },
       "id": "c76b49f9-054e-4058-bcc0-06e079c175b2",
       "name": "配置RSS源",
@@ -136,7 +418,9 @@
       "position": [
         -1120,
         80
-      ]
+      ],
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -150,7 +434,9 @@
       "position": [
         -896,
         80
-      ]
+      ],
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -200,16 +486,16 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        320,
-        -112
+        416,
+        -96
       ]
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=新闻列表：\\n{{ $json.news_list.map(item => `标题：${item.title}\\n时间：${item.time}\\n内容：${item.content}`).join('\\n\\n') }}",
+        "text": "=以下是过去一小时的资讯列表：\\n{{ $json.news_list.map(item => `标题：${item.title}\\n时间：${item.time}\\n内容：${item.content}`).join('\\n\\n') }}",
         "options": {
-          "systemMessage": "# Role\n\n你是一名顶级财经快讯编辑 + 二级市场分析师。\n\n你的任务是：\n对输入的财经新闻进行结构化分析，并生成适合发送到钉钉群的 Markdown 快报。\n\n要求：\n\n* 信息密度高\n* 语言专业\n* 不要废话\n* 不要免责声明\n* 不要输出分析过程\n* 重点突出“对市场的影响”\n* 使用适合交易员阅读的表达\n* 适合手机端快速浏览\n\n---\n\n# 输出格式要求（严格遵守）\n\n# 📰 财经快报 | {日期时间}\n\n## 🌍 宏观\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 核心内容：\n\n  * {核心点1}\n  * {核心点2}\n* 市场影响：\n\n  * 利好：{受益方向}\n  * 利空：{承压方向}\n\n---\n\n## 🇨🇳 A股\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 涉及板块：`半导体` `AI` `新能源`\n* 核心内容：\n\n  * {核心点}\n* 市场影响：\n\n  * {资金可能流向}\n  * {可能受影响公司类型}\n\n---\n\n## 🌎 海外市场\n\n### {新闻标题}\n\n* 情绪：🟢利好 / 🔴利空 / 🟡中性\n* 一句话总结：{20字内总结}\n* 核心内容：\n\n  * {核心内容}\n* 市场影响：\n\n  * {对美股/港股/大宗商品影响}\n\n---\n\n# 📊 市场情绪总览\n\n* 宏观情绪：🟢 / 🔴 / 🟡\n* A股情绪：🟢 / 🔴 / 🟡\n* 海外情绪：🟢 / 🔴 / 🟡\n\n---\n\n# 🧠 AI总结\n\n{用100~200字总结今日财经新闻主线：\n包括：\n\n* 当前市场风险偏好\n* 资金关注方向\n* 政策导向\n* 全球市场变化\n* 哪些板块值得重点关注\n* 哪些方向需要警惕}\n\n---\n\n# 分析规则\n\n## 情绪判断规则\n\n### 🟢 利好\n\n包括但不限于：\n\n* 降息\n* 放水\n* 财政刺激\n* AI/半导体政策支持\n* 业绩超预期\n* 外资流入\n* 行业景气提升\n\n### 🔴 利空\n\n包括但不限于：\n\n* 加息\n* 制裁\n* 地缘冲突升级\n* 业绩暴雷\n* 监管收紧\n* 大宗商品暴涨\n* 美债收益率大涨\n\n### 🟡 中性\n\n* 无明显方向\n* 市场已提前消化\n* 短期影响有限\n\n---\n\n# 内容优化要求\n\n1. 自动提炼：\n\n* 哪些板块受益\n* 哪些资产承压\n* 是否影响风险偏好\n\n2. 如果新闻很多：\n\n* 只保留最重要的 TOP 新闻\n* 相似新闻合并\n\n3. 输出必须简洁：\n\n* 避免长段落\n* 手机端易读\n\n4. 优先分析：\n\n* 中国政策\n* 美联储\n* AI\n* 半导体\n* 新能源\n* 地产\n* 黄金\n* 原油\n* 美债\n* 汇率\n\n5. 若新闻涉及上市公司：\n   输出：\n\n* 利好哪些类型公司\n* 利空哪些类型公司\n\n6. 如果新闻明显属于：\n\n* 黑天鹅\n* 系统性风险\n* 行业级机会\n  请额外加：\n\n> ⚠️ 重点关注\n\n\n\n\n"
+          "systemMessage": "# Role\n你是一个专业的金融量化资讯助手。你的任务是从一堆杂乱的财经快讯中，提取出最有交易价值的信息，并生成可以直接发到钉钉的 Markdown 简报。\n\n# Rules\n1. **去重与过滤**：忽略没有实质性内容的口水话、早晚报问候语或重复推送的旧消息。\n2. **提炼核心**：每条资讯只保留一句话的核心逻辑，不要长篇大论。\n3. **高亮实体与情绪**：\n   - 只要文本中提到具体的**股票名称**、**概念板块**或**标的代码**，必须使用加粗（例如：**低空经济**、**贵州茅台**）。\n   - 明显带有方向性的消息，请在行首加上情绪标签：[🔴利好]、[🟢利空] 或 [⚪中性]。\n\n# Output Format\n请严格按照以下 Markdown 格式输出（如果没有相关分类的数据，直接隐藏该分类）：\n\n## 🕒 极速复盘与资讯提炼\n\n### 🌍 宏观与重要政策\n- [来源] [情绪] 一句话核心逻辑（如：美联储降息预期升温...）\n- ...\n\n### 🔥 A股题材与市场情绪\n- [来源] [情绪] 突发概念或游资关注热点（如：**固态电池**板块异动...）\n- ...\n\n### 💡 个股与套利动态\n- [来源] [情绪] 关于 **[具体股票/转债]** 的重要公告或异动。\n- ...\n\n---\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -225,9 +511,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5.5",
+          "value": "Gemini 2.5 Flash",
           "mode": "list",
-          "cachedResultName": "gpt-5.5"
+          "cachedResultName": "Gemini 2.5 Flash"
         },
         "builtInTools": {},
         "options": {}
@@ -259,8 +545,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        368,
-        96
+        384,
+        80
       ],
       "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
       "name": "HTTP Request",
@@ -274,7 +560,7 @@
       "typeVersion": 2,
       "position": [
         112,
-        32
+        -96
       ],
       "id": "9d87e08f-d74d-474f-a921-f13d3d783b15",
       "name": "Code in JavaScript"
@@ -294,9 +580,13 @@
       "projectId": "lEFOoazMW0rDCnYR"
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:定时触发": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2026-05-20T03:39:23.970Z",
-  "versionId": "bd1857e7-a23a-4d2f-9b58-2a5249c3dcb8"
+  "triggerCount": 1,
+  "updatedAt": "2026-05-20T05:58:38.079Z",
+  "versionId": "84cbe06d-50ea-487a-953c-52e00a6a2307"
 }
