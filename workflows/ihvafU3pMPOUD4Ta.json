@@ -76,6 +76,11 @@
             "node": "发送钉钉",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -184,9 +189,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        96,
-        -16
-      ]
+        112,
+        -96
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -230,6 +236,24 @@
           "name": "cpa"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://notify.xujwx.xyz/notify",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"\",\n  \"body\": \"{{ $json.output }}\",\n  \"urls\": [\n    \"dingtalk://SECaabc74a6447a606341409e631803d3030e62d737755237cba4f56f229f87a191@c8f75452059bd89fa1010da170936e7360168e22ea38eec5efba57356ffbfcfe\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        176,
+        80
+      ],
+      "id": "b12e7639-726d-4e03-89db-7d084c2dc50b",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {},
@@ -249,6 +273,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-05-20T02:00:03.017Z",
-  "versionId": "c7f1e212-e54b-4e05-ae18-129651ef56af"
+  "updatedAt": "2026-05-20T02:59:22.029Z",
+  "versionId": "53594fad-c270-42bd-86a1-01514f3361e8"
 }
