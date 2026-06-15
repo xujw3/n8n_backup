@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-05-21T14:38:00.079Z",
-    "createdAt": "2026-05-21T14:35:13.105Z",
-    "versionId": "d85c4d07-382c-41a0-8775-52b489c26332",
+    "updatedAt": "2026-06-15T03:45:13.062Z",
+    "createdAt": "2026-06-15T03:44:40.478Z",
+    "versionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1",
     "workflowId": "ihvafU3pMPOUD4Ta",
     "nodes": [
       {
@@ -27,7 +27,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"https://rss.xujwx.xyz\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
+          "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"http://10.1.1.19:1200\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
         },
         "id": "c76b49f9-054e-4058-bcc0-06e079c175b2",
         "name": "配置RSS源",
@@ -281,11 +281,11 @@
     },
     "nodeGroups": [],
     "authors": "King Moon",
-    "name": "Version d85c4d07",
+    "name": "Version ce96c032",
     "description": "",
     "autosaved": false
   },
-  "activeVersionId": "d85c4d07-382c-41a0-8775-52b489c26332",
+  "activeVersionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1",
   "connections": {
     "定时触发": {
       "main": [
@@ -410,7 +410,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"https://rss.xujwx.xyz\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
+        "jsCode": "// ==========================================\n// 1. 统一设置你的 RSSHub 基础域名（如果换了节点，只改这里就行）\n// ==========================================\nconst baseUrl = \"http://10.1.1.19:1200\"; \n\n// ==========================================\n// 2. 维护你的订阅源（基于你上传的 CSV 标准路径，已自动加上 ?format=json）\n// ==========================================\nconst feeds = [\n  // --- 极速快讯类 ---\n  { \n    name: \"财联社-电报\", \n    url: `${baseUrl}/cls/telegraph?format=json` \n  },\n  { \n    name: \"华尔街见闻-实时快讯\", \n    url: `${baseUrl}/wallstreetcn/live?format=json` // 修正了原本多余的 /global\n  },\n  { \n    name: \"金十数据-市场快讯\", \n    url: `${baseUrl}/jin10?format=json` \n  },\n\n  // --- A股题材与情绪类 ---\n  { \n    name: \"韭研公社-社群\", \n    url: `${baseUrl}/jiuyangongshe/community?format=json` // 修正：CSV 中的真实路径\n  },\n  { \n    name: \"淘股吧-淘股论坛\", \n    url: `${baseUrl}/taoguba?format=json` // 修正：CSV 中的最热全局路径\n  },\n  { \n    name: \"雪球-热帖\", \n    url: `${baseUrl}/xueqiu/hots?format=json` // 官方高热度路线\n  },\n\n  // --- 套利与深度数据类 ---\n  { \n    name: \"集思录-广场\", \n    url: `${baseUrl}/jisilu/explore?format=json` // 修正：CSV 中的正确讨论区路径\n  }\n];\n\n// ==========================================\n// 3. 自动转换（这部分代码永远不需要动）\n// ==========================================\nreturn feeds.map(item => {\n  return { json: item };\n});"
       },
       "id": "c76b49f9-054e-4058-bcc0-06e079c175b2",
       "name": "配置RSS源",
@@ -588,6 +588,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-05-21T14:35:13.103Z",
-  "versionId": "d85c4d07-382c-41a0-8775-52b489c26332"
+  "updatedAt": "2026-06-15T03:44:40.816Z",
+  "versionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1"
 }
