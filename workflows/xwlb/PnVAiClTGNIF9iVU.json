@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-10T03:55:49.432Z",
-    "createdAt": "2026-06-10T03:55:34.048Z",
-    "versionId": "72e53d3a-5556-424d-80bd-d35209f9b98c",
+    "updatedAt": "2026-06-15T03:05:32.762Z",
+    "createdAt": "2026-06-15T03:05:23.314Z",
+    "versionId": "11842569-5566-43e5-b80a-48da0cbf7d08",
     "workflowId": "PnVAiClTGNIF9iVU",
     "nodes": [
       {
@@ -126,8 +126,7 @@
           160
         ],
         "id": "2a836be8-7354-4b86-8124-a25d0812044b",
-        "name": "HTTP Request",
-        "disabled": true
+        "name": "HTTP Request"
       },
       {
         "parameters": {
@@ -258,11 +257,11 @@
     },
     "nodeGroups": [],
     "authors": "King Moon",
-    "name": "Version 72e53d3a",
+    "name": "Version 11842569",
     "description": "",
-    "autosaved": true
+    "autosaved": false
   },
-  "activeVersionId": "72e53d3a-5556-424d-80bd-d35209f9b98c",
+  "activeVersionId": "11842569-5566-43e5-b80a-48da0cbf7d08",
   "connections": {
     "定时触发": {
       "main": [
@@ -459,8 +458,7 @@
         160
       ],
       "id": "2a836be8-7354-4b86-8124-a25d0812044b",
-      "name": "HTTP Request",
-      "disabled": true
+      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -550,6 +548,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2026-06-10T03:55:34.046Z",
-  "versionId": "72e53d3a-5556-424d-80bd-d35209f9b98c"
+  "updatedAt": "2026-06-15T03:05:23.960Z",
+  "versionId": "11842569-5566-43e5-b80a-48da0cbf7d08"
 }
