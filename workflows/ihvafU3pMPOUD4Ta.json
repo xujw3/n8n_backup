@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-15T03:45:13.062Z",
-    "createdAt": "2026-06-15T03:44:40.478Z",
-    "versionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1",
+    "updatedAt": "2026-06-16T02:56:33.367Z",
+    "createdAt": "2026-06-16T02:56:25.602Z",
+    "versionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f",
     "workflowId": "ihvafU3pMPOUD4Ta",
     "nodes": [
       {
@@ -129,9 +129,9 @@
         "parameters": {
           "model": {
             "__rl": true,
-            "value": "gemini-2.5-flash",
+            "value": "gemini-3.5-flash",
             "mode": "list",
-            "cachedResultName": "gemini-2.5-flash"
+            "cachedResultName": "gemini-3.5-flash"
           },
           "builtInTools": {},
           "options": {}
@@ -281,11 +281,11 @@
     },
     "nodeGroups": [],
     "authors": "King Moon",
-    "name": "Version ce96c032",
+    "name": "Version 103e805e",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
-  "activeVersionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1",
+  "activeVersionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f",
   "connections": {
     "定时触发": {
       "main": [
@@ -512,9 +512,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gemini-2.5-flash",
+          "value": "gemini-3.5-flash",
           "mode": "list",
-          "cachedResultName": "gemini-2.5-flash"
+          "cachedResultName": "gemini-3.5-flash"
         },
         "builtInTools": {},
         "options": {}
@@ -588,6 +588,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-15T03:44:40.816Z",
-  "versionId": "ce96c032-7b3f-4591-8750-a2334f16a0b1"
+  "updatedAt": "2026-06-16T02:56:25.597Z",
+  "versionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f"
 }
