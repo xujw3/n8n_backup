@@ -1045,6 +1045,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "backup",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {},
@@ -1610,7 +1611,12 @@
   ],
   "staticData": {
     "node:Schedule Trigger": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     }
   },
   "tags": [
