@@ -82,6 +82,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "新闻联播",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
