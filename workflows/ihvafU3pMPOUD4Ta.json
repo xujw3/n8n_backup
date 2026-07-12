@@ -388,6 +388,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "财经快报",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -583,7 +584,12 @@
   ],
   "staticData": {
     "node:定时触发": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     }
   },
   "tags": [],
