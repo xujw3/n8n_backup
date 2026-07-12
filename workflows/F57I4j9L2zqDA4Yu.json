@@ -402,6 +402,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "聚宽转QMT-纯n8n-QMT拉取",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
