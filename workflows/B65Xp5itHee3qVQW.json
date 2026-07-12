@@ -288,6 +288,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "教程抓取",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
