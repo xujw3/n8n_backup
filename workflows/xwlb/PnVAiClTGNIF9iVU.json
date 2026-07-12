@@ -337,6 +337,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "新闻联播 copy",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
@@ -536,7 +537,12 @@
   ],
   "staticData": {
     "node:定时触发": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        null
+      ],
+      "recurrenceRuleSignatures": [
+        null
+      ]
     }
   },
   "tags": [
