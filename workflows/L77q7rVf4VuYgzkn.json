@@ -234,6 +234,7 @@
     "templateCredsSetupCompleted": true
   },
   "name": "聚宽转QMT-纯n8n-信号存入",
+  "nodeGroups": [],
   "nodes": [
     {
       "parameters": {
