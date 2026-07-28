@@ -1,9 +1,9 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-16T02:56:33.367Z",
-    "createdAt": "2026-06-16T02:56:25.602Z",
-    "versionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f",
+    "updatedAt": "2026-07-28T03:18:13.257Z",
+    "createdAt": "2026-07-28T03:09:58.981Z",
+    "versionId": "e27a8520-b612-4176-ae53-381522b62c9c",
     "workflowId": "ihvafU3pMPOUD4Ta",
     "nodes": [
       {
@@ -129,9 +129,9 @@
         "parameters": {
           "model": {
             "__rl": true,
-            "value": "gemini-3.5-flash",
+            "value": "gpt-5.5",
             "mode": "list",
-            "cachedResultName": "gemini-3.5-flash"
+            "cachedResultName": "gpt-5.5"
           },
           "builtInTools": {},
           "options": {}
@@ -281,11 +281,11 @@
     },
     "nodeGroups": [],
     "authors": "King Moon",
-    "name": "Version 103e805e",
+    "name": "Version e27a8520",
     "description": "",
     "autosaved": true
   },
-  "activeVersionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f",
+  "activeVersionId": "e27a8520-b612-4176-ae53-381522b62c9c",
   "connections": {
     "定时触发": {
       "main": [
@@ -513,9 +513,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gemini-3.5-flash",
+          "value": "gpt-5.5",
           "mode": "list",
-          "cachedResultName": "gemini-3.5-flash"
+          "cachedResultName": "gpt-5.5"
         },
         "builtInTools": {},
         "options": {}
@@ -594,6 +594,6 @@
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-06-16T02:56:25.597Z",
-  "versionId": "103e805e-b6e7-4cf8-82b4-9e74c1e5e21f"
+  "updatedAt": "2026-07-28T03:09:58.977Z",
+  "versionId": "e27a8520-b612-4176-ae53-381522b62c9c"
 }
