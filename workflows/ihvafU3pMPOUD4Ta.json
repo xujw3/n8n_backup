@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-07-28T03:18:13.257Z",
-    "createdAt": "2026-07-28T03:09:58.981Z",
     "versionId": "e27a8520-b612-4176-ae53-381522b62c9c",
     "workflowId": "ihvafU3pMPOUD4Ta",
     "nodes": [
@@ -283,7 +281,9 @@
     "authors": "King Moon",
     "name": "Version e27a8520",
     "description": "",
-    "autosaved": true
+    "autosaved": true,
+    "createdAt": "2026-07-28T03:09:58.981Z",
+    "updatedAt": "2026-07-28T03:18:13.257Z"
   },
   "activeVersionId": "e27a8520-b612-4176-ae53-381522b62c9c",
   "connections": {
@@ -575,11 +575,11 @@
   },
   "shared": [
     {
-      "updatedAt": "2026-05-20T01:13:32.399Z",
-      "createdAt": "2026-05-20T01:13:32.399Z",
       "role": "workflow:owner",
       "workflowId": "ihvafU3pMPOUD4Ta",
-      "projectId": "lEFOoazMW0rDCnYR"
+      "projectId": "lEFOoazMW0rDCnYR",
+      "createdAt": "2026-05-20T01:13:32.399Z",
+      "updatedAt": "2026-05-20T01:13:32.399Z"
     }
   ],
   "staticData": {
