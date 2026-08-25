@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2026-06-15T03:05:32.762Z",
-    "createdAt": "2026-06-15T03:05:23.314Z",
     "versionId": "11842569-5566-43e5-b80a-48da0cbf7d08",
     "workflowId": "PnVAiClTGNIF9iVU",
     "nodes": [
@@ -259,7 +257,9 @@
     "authors": "King Moon",
     "name": "Version 11842569",
     "description": "",
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2026-06-15T03:05:23.314Z",
+    "updatedAt": "2026-06-15T03:05:32.762Z"
   },
   "activeVersionId": "11842569-5566-43e5-b80a-48da0cbf7d08",
   "connections": {
@@ -528,11 +528,11 @@
   },
   "shared": [
     {
-      "updatedAt": "2026-05-16T04:48:13.134Z",
-      "createdAt": "2026-05-16T04:48:13.134Z",
       "role": "workflow:owner",
       "workflowId": "PnVAiClTGNIF9iVU",
-      "projectId": "lEFOoazMW0rDCnYR"
+      "projectId": "lEFOoazMW0rDCnYR",
+      "createdAt": "2026-05-16T04:48:13.134Z",
+      "updatedAt": "2026-05-16T04:48:13.134Z"
     }
   ],
   "staticData": {
@@ -547,10 +547,10 @@
   },
   "tags": [
     {
-      "updatedAt": "2025-09-24T05:26:34.424Z",
-      "createdAt": "2025-09-24T05:26:34.424Z",
       "id": "zNUt3KFKdzoIPsSO",
-      "name": "xwlb"
+      "name": "xwlb",
+      "createdAt": "2025-09-24T05:26:34.424Z",
+      "updatedAt": "2025-09-24T05:26:34.424Z"
     }
   ],
   "triggerCount": 1,
