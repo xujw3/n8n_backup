@@ -1,8 +1,6 @@
 {
   "active": true,
   "activeVersion": {
-    "updatedAt": "2025-12-10T13:33:16.957Z",
-    "createdAt": "2025-12-10T13:33:16.957Z",
     "versionId": "9342dc11-fb37-4b37-b1b0-d694de7afb7f",
     "workflowId": "TDSyZMOKoygdqtcn",
     "nodes": [
@@ -281,7 +279,9 @@
     "authors": "system migration",
     "name": null,
     "description": null,
-    "autosaved": false
+    "autosaved": false,
+    "createdAt": "2025-12-10T13:33:16.957Z",
+    "updatedAt": "2025-12-10T13:33:16.957Z"
   },
   "activeVersionId": "9342dc11-fb37-4b37-b1b0-d694de7afb7f",
   "connections": {
@@ -698,20 +698,20 @@
   },
   "shared": [
     {
-      "updatedAt": "2025-09-24T05:55:21.447Z",
-      "createdAt": "2025-09-24T05:55:21.447Z",
       "role": "workflow:owner",
       "workflowId": "TDSyZMOKoygdqtcn",
-      "projectId": "lEFOoazMW0rDCnYR"
+      "projectId": "lEFOoazMW0rDCnYR",
+      "createdAt": "2025-09-24T05:55:21.447Z",
+      "updatedAt": "2025-09-24T05:55:21.447Z"
     }
   ],
   "staticData": null,
   "tags": [
     {
-      "updatedAt": "2025-09-24T05:55:20.089Z",
-      "createdAt": "2025-09-24T05:55:20.089Z",
       "id": "fmV2LzbiUucymo2X",
-      "name": "stock"
+      "name": "stock",
+      "createdAt": "2025-09-24T05:55:20.089Z",
+      "updatedAt": "2025-09-24T05:55:20.089Z"
     }
   ],
   "triggerCount": 1,
